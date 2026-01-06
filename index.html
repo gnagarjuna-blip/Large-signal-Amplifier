@@ -5,339 +5,261 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Power Amplifiers - G NAGARJUNA</title>
     <style>
+        :root {
+            --primary: #1a75ff;
+            --secondary: #d90429;
+            --bg: #f0f4f8;
+            --text: #333;
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f4f8;
-            color: #333;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
         }
         .container {
-            width: 95%;
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 30px;
+            width: 95%; max-width: 900px;
+            margin: 20px auto; padding: 30px;
             background-color: #fff;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
         }
         header {
             text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 5px solid #1a75ff;
+            border-bottom: 5px solid var(--primary);
+            margin-bottom: 20px;
+        }
+        .prepared-by {
+            font-weight: bold; color: var(--secondary);
+            margin: 10px 0; font-size: 1.3em;
+        }
+
+        /* Topic Navigation Buttons */
+        .nav-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
             margin-bottom: 30px;
         }
-        header h1 { color: #1a75ff; margin: 0; font-size: 2.2em; }
-        .prepared-by {
-            font-weight: bold;
-            color: #d90429;
-            margin-top: 10px;
-            font-size: 1.3em;
-        }
-        
-        .section-header {
-            background-color: #1a75ff;
-            color: white;
+        .nav-btn {
             padding: 12px 20px;
+            border: none;
+            background: #e2e8f0;
+            color: #4a5568;
             border-radius: 8px;
-            margin-top: 25px;
-            font-size: 1.4em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
         }
 
-        .content-box {
-            padding: 15px 20px;
-            border-left: 5px solid #1a75ff;
-            background: #f9f9f9;
-            margin: 10px 0 20px 0;
-        }
+        /* Content Sections */
+        .topic-content { display: none; animation: fadeIn 0.5s; }
+        .topic-content.active { display: block; }
 
-        .diagram-container {
+        .diagram-box {
             text-align: center;
             margin: 20px 0;
             padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            background-color: #fff;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            background: #fff;
         }
-
-        .diagram-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-
         .diagram-caption {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #555;
-            font-size: 0.9em;
+            display: block; margin-top: 10px;
+            font-weight: 600; color: #718096;
         }
 
-        /* Quiz Styles */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Quiz UI */
         .quiz-wrapper {
-            background: #edf2f7;
+            background: #f8fafc;
             padding: 25px;
             border-radius: 12px;
-            margin-top: 30px;
-            border: 2px solid #1a75ff;
+            border: 2px solid var(--primary);
         }
-        .question-box { margin-bottom: 20px; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .opt-btn {
-            padding: 12px;
-            border: 1px solid #1a75ff;
-            background: white;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: 0.3s;
-            font-size: 1em;
+            width: 100%; padding: 12px; margin: 5px 0;
+            border: 1px solid var(--primary);
+            background: white; border-radius: 6px; cursor: pointer;
         }
-        .opt-btn:hover { background: #e6f0ff; }
-        .correct { background-color: #4bb543 !important; color: white; border-color: #4bb543; }
-        .wrong { background-color: #ff3333 !important; color: white; border-color: #ff3333; }
-        
-        #quiz-feedback { 
-            margin-top: 15px; 
-            padding: 15px;
-            border-radius: 8px;
-            display: none; 
+        .correct { background: #4bb543 !important; color: white; }
+        .wrong { background: #ff3333 !important; color: white; }
+        .explanation {
+            margin-top: 15px; padding: 15px;
+            background: #ebf8ff; border-left: 4px solid var(--primary);
+            display: none;
         }
-        .explanation-text {
-            font-size: 0.95em;
-            margin-top: 8px;
-            color: #444;
-            font-style: italic;
-        }
-        
-        .progress { text-align: right; font-size: 0.9em; color: #666; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        th { background: #f1f5f9; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>Power Amplifiers & Signal Theory</h1>
+        <h1>Power Amplifier Mastery</h1>
         <div class="prepared-by">Prepared by G NAGARJUNA</div>
     </header>
 
-    <div class="section-header">1. Large Signal Amplifiers</div>
-    <div class="content-box">
-        <p>A <strong>Large Signal Amplifier</strong> (also known as a Power Amplifier) is a circuit designed to handle high levels of voltage and current to deliver maximum power to a load, such as a loudspeaker. Unlike small signal amplifiers, which focus on preserving the shape of a tiny voltage, large signal amplifiers operate over the entire length of the load line.</p>
-        
-        <div class="diagram-container">
-            
-            <span class="diagram-caption">Figure 1.1: Basic block diagram of a Power Amplifier system</span>
-        </div>
+    <div class="nav-menu">
+        <button class="nav-btn active" onclick="showTopic('intro')">Introduction</button>
+        <button class="nav-btn" onclick="showTopic('classA')">Class A</button>
+        <button class="nav-btn" onclick="showTopic('classB')">Class B</button>
+        <button class="nav-btn" onclick="showTopic('classAB')">Class AB</button>
+        <button class="nav-btn" onclick="showTopic('classC')">Class C</button>
+        <button class="nav-btn" onclick="showTopic('quiz')">Self-Check Quiz</button>
     </div>
 
-    <div class="section-header">2. Classification by Conduction Angle</div>
-    <div class="content-box">
-        <p>Amplifiers are classified based on how much of the input cycle (out of 360 degrees) the transistor remains active.</p>
-
-        <div class="diagram-container">
+    <div id="intro" class="topic-content active">
+        <h2>What are Power Amplifiers?</h2>
+        <p>A Power Amplifier (Large Signal Amplifier) is designed to deliver maximum power to a load (like a speaker or antenna). They operate over a large portion of the transistor's characteristic curve.</p>
+        <div class="diagram-box">
             
-            <span class="diagram-caption">Figure 2.1: Comparison of output waveforms based on conduction angle</span>
+            <span class="diagram-caption">Fig 1: Typical Audio Power System</span>
         </div>
-
         <table>
-            <tr>
-                <th>Class</th>
-                <th>Conduction Angle</th>
-                <th>Q-Point Position</th>
-                <th>Efficiency</th>
-            </tr>
-            <tr>
-                <td>Class A</td>
-                <td>360 Degrees</td>
-                <td>Center of Load Line</td>
-                <td>25% to 50%</td>
-            </tr>
-            <tr>
-                <td>Class B</td>
-                <td>180 Degrees</td>
-                <td>At Cutoff Point</td>
-                <td>78.5%</td>
-            </tr>
-            <tr>
-                <td>Class AB</td>
-                <td>180 to 360 Degrees</td>
-                <td>Just above Cutoff</td>
-                <td>50% to 78%</td>
-            </tr>
-            <tr>
-                <td>Class C</td>
-                <td>Less than 180</td>
-                <td>Below Cutoff</td>
-                <td>Above 80%</td>
-            </tr>
+            <tr><th>Parameter</th><th>Small Signal</th><th>Large Signal (Power)</th></tr>
+            <tr><td>Main Goal</td><td>Voltage Gain</td><td>Power Delivery</td></tr>
+            <tr><td>Transistor Size</td><td>Small</td><td>Large (with Heat Sinks)</td></tr>
         </table>
     </div>
 
-    <div class="section-header">3. Class A Amplifiers in Detail</div>
-    <div class="content-box">
-        <p>In Class A operation, the collector current flows at all times during the full cycle of the signal. This results in minimum distortion but low efficiency because the transistor is "ON" even when there is no input signal.</p>
-        
-        <div class="diagram-container">
+    <div id="classA" class="topic-content">
+        <h2>Class A Amplifier</h2>
+        <p>The transistor conducts for the full 360° of the input cycle. The Q-point is exactly in the center of the load line.</p>
+        <div class="diagram-box">
             
-            <span class="diagram-caption">Figure 3.1: Load line analysis for Class A operation</span>
+            <span class="diagram-caption">Fig 2: Class A Operation & Waveform</span>
         </div>
-
-        <p><strong>Efficiency Formula:</strong><br>
-        Efficiency = (AC Output Power / DC Input Power) x 100</p>
+        <ul>
+            <li><strong>Efficiency:</strong> Max 25% (Direct) / 50% (Transformer Coupled).</li>
+            <li><strong>Distortion:</strong> Lowest among all classes.</li>
+            <li><strong>Application:</strong> High-fidelity audio pre-amps.</li>
+        </ul>
     </div>
 
-    <div class="section-header">4. Interactive Quiz (10 Questions)</div>
-    <div class="quiz-wrapper">
-        <div class="progress" id="quiz-progress">Question 1 of 10</div>
-        <div class="question-box">
-            <p id="question-text" style="font-size: 1.1em; font-weight: bold;"></p>
-            <div class="options-grid" id="options-container"></div>
+    <div id="classB" class="topic-content">
+        <h2>Class B Amplifier</h2>
+        <p>The transistor conducts for only 180° (half cycle). Usually used in a <strong>Push-Pull</strong> configuration where one transistor handles the positive half and the other handles the negative.</p>
+        <div class="diagram-box">
+            
+            <span class="diagram-caption">Fig 3: Class B Push-Pull Circuit</span>
         </div>
-        <div id="quiz-feedback">
-            <div id="result-status" style="font-weight: bold;"></div>
-            <div id="explanation-content" class="explanation-text"></div>
+        <p><strong>Crossover Distortion:</strong> Occurs because transistors don't turn on until the signal reaches ~0.7V.</p>
+        <div class="diagram-box">
+            
+            <span class="diagram-caption">Fig 4: Crossover Distortion Visualized</span>
         </div>
-        <button id="next-btn" style="display:none; margin: 20px auto; padding: 10px 25px; background: #1a75ff; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="nextQuestion()">Next Question</button>
     </div>
 
+    <div id="classAB" class="topic-content">
+        <h2>Class AB Amplifier</h2>
+        <p>A compromise between A and B. It conducts for slightly more than 180° to eliminate crossover distortion.</p>
+        <div class="diagram-box">
+            
+            <span class="diagram-caption">Fig 5: Class AB Biasing</span>
+        </div>
+        <p>This is the most common class used in high-quality audio power amplifiers today.</p>
+    </div>
+
+    <div id="classC" class="topic-content">
+        <h2>Class C Amplifier</h2>
+        <p>The transistor conducts for less than 180°. It produces high distortion but very high efficiency (over 80%).</p>
+        <div class="diagram-box">
+            
+            <span class="diagram-caption">Fig 6: Class C with LC Tank Circuit</span>
+        </div>
+        <p><strong>Note:</strong> Used almost exclusively in Radio Frequency (RF) transmitters where the "Tank Circuit" filters out the distortion.</p>
+    </div>
+
+    <div id="quiz" class="topic-content">
+        <div class="quiz-wrapper">
+            <h3 id="q-text">Loading question...</h3>
+            <div id="options"></div>
+            <div id="expl-box" class="explanation"></div>
+            <button id="next-btn" style="display:none; margin-top:15px; padding:10px; cursor:pointer;" onclick="nextQ()">Next Question</button>
+        </div>
+    </div>
 </div>
 
 <script>
+    function showTopic(id) {
+        document.querySelectorAll('.topic-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.currentTarget.classList.add('active');
+        if(id === 'quiz') { currentIdx = 0; loadQ(); }
+    }
+
     const questions = [
-        { 
-            q: "What is the conduction angle of a Class A amplifier?", 
-            options: ["90 degrees", "180 degrees", "270 degrees", "360 degrees"], 
-            a: "360 degrees",
-            exp: "Class A amplifiers conduct for the full cycle of the input signal, meaning the transistor remains active for 360 degrees."
-        },
-        { 
-            q: "Where is the Q-point located in a Class B amplifier?", 
-            options: ["Center of load line", "At cutoff", "Saturation region", "Below cutoff"], 
-            a: "At cutoff",
-            exp: "In Class B, the Q-point is biased exactly at the cutoff point so that only half of the input signal (180°) triggers conduction."
-        },
-        { 
-            q: "Which amplifier class has the highest efficiency?", 
-            options: ["Class A", "Class B", "Class AB", "Class C"], 
-            a: "Class C",
-            exp: "Class C has the highest efficiency (often >80%) because the transistor is off for most of the cycle, reducing power loss."
-        },
-        { 
-            q: "What is the theoretical maximum efficiency of a directly coupled Class A amplifier?", 
-            options: ["25%", "50%", "78.5%", "90%"], 
-            a: "25%",
-            exp: "For a series-fed (directly coupled) Class A amplifier, the maximum theoretical efficiency is only 25%. Transformer coupling can increase this to 50%."
-        },
-        { 
-            q: "Crossover distortion is a major problem in which class?", 
-            options: ["Class A", "Class B", "Class C", "Class AB"], 
-            a: "Class B",
-            exp: "Crossover distortion occurs in Class B when the signal crosses 0V because transistors need about 0.7V to turn on, creating a 'dead zone'."
-        },
-        { 
-            q: "Which class is used to eliminate crossover distortion while maintaining efficiency?", 
-            options: ["Class A", "Class B", "Class AB", "Class C"], 
-            a: "Class AB",
-            exp: "Class AB biases the transistors slightly above cutoff, so they stay on for slightly more than 180°, eliminating the 'dead zone' of Class B."
-        },
-        { 
-            q: "In Class C amplifiers, the conduction angle is usually:", 
-            options: ["360", "180", "Less than 180", "Exactly 200"], 
-            a: "Less than 180",
-            exp: "Class C conducts for a small pulse, typically between 80 to 120 degrees, which makes it highly efficient for RF tuning."
-        },
-        { 
-            q: "The ratio of AC output power to DC input power is called:", 
-            options: ["Gain", "Impedance", "Conversion Efficiency", "Dissipation"], 
-            a: "Conversion Efficiency",
-            exp: "Conversion efficiency measures how effectively the amplifier converts DC power from the supply into useful AC signal power."
-        },
-        { 
-            q: "Why are Class A amplifiers considered inefficient?", 
-            options: ["Low gain", "High distortion", "Transistor is always ON", "Uses two transistors"], 
-            a: "Transistor is always ON",
-            exp: "Efficiency is low because the collector current flows even when there is no input signal, causing constant power dissipation as heat."
-        },
-        { 
-            q: "Which amplifier is best suited for RF (Radio Frequency) applications?", 
-            options: ["Class A", "Class B", "Class AB", "Class C"], 
-            a: "Class C",
-            exp: "Class C is ideal for RF because its high distortion is filtered out by the LC 'tank' circuit, leaving only the efficient high-power carrier wave."
-        }
+        { q: "Which class has the highest efficiency?", 
+          o: ["Class A", "Class B", "Class AB", "Class C"], 
+          a: "Class C", 
+          e: "Class C is most efficient (80%+) because the transistor is 'OFF' for more than half the cycle, saving energy." },
+        { q: "What causes crossover distortion?", 
+          o: ["High voltage", "Transistor turn-on delay", "Input noise", "Overheating"], 
+          a: "Transistor turn-on delay", 
+          e: "Transistors require about 0.7V to start conducting. In Class B, the gap between the two transistors switching causes this distortion." },
+        { q: "Which class conducts for 360 degrees?", 
+          o: ["Class A", "Class B", "Class AB", "Class C"], 
+          a: "Class A", 
+          e: "Class A is biased so that collector current flows during the entire input signal cycle." }
     ];
 
     let currentIdx = 0;
 
-    function loadQuestion() {
+    function loadQ() {
         const q = questions[currentIdx];
-        document.getElementById("quiz-progress").innerText = `Question ${currentIdx + 1} of 10`;
-        document.getElementById("question-text").innerText = q.q;
-        const optionsCont = document.getElementById("options-container");
-        optionsCont.innerHTML = "";
-        
-        document.getElementById("quiz-feedback").style.display = "none";
-        document.getElementById("next-btn").style.display = "none";
+        document.getElementById('q-text').innerText = q.q;
+        const optDiv = document.getElementById('options');
+        optDiv.innerHTML = '';
+        document.getElementById('expl-box').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'none';
 
-        q.options.forEach(opt => {
-            const btn = document.createElement("button");
-            btn.className = "opt-btn";
+        q.o.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
             btn.innerText = opt;
-            btn.onclick = () => checkAns(btn, opt);
-            optionsCont.appendChild(btn);
+            btn.onclick = () => check(btn, opt);
+            optDiv.appendChild(btn);
         });
     }
 
-    function checkAns(selectedBtn, choice) {
+    function check(btn, choice) {
         const q = questions[currentIdx];
-        const correct = q.a;
-        const allBtns = document.querySelectorAll(".opt-btn");
-        const feedbackDiv = document.getElementById("quiz-feedback");
-        const status = document.getElementById("result-status");
-        const explanation = document.getElementById("explanation-content");
+        const all = document.querySelectorAll('.opt-btn');
+        all.forEach(b => b.disabled = true);
         
-        allBtns.forEach(b => b.disabled = true);
-        feedbackDiv.style.display = "block";
-
-        if (choice === correct) {
-            selectedBtn.classList.add("correct");
-            status.innerText = "Correct! ✅";
-            status.style.color = "#4bb543";
-            feedbackDiv.style.backgroundColor = "#e8f5e9";
+        if(choice === q.a) {
+            btn.classList.add('correct');
         } else {
-            selectedBtn.classList.add("wrong");
-            status.innerText = "Incorrect ❌ (Correct Answer: " + correct + ")";
-            status.style.color = "#ff3333";
-            feedbackDiv.style.backgroundColor = "#ffebee";
-            allBtns.forEach(b => {
-                if (b.innerText === correct) b.classList.add("correct");
-            });
+            btn.classList.add('wrong');
+            all.forEach(b => { if(b.innerText === q.a) b.classList.add('correct'); });
         }
         
-        explanation.innerText = q.exp;
-        document.getElementById("next-btn").style.display = "block";
+        const eb = document.getElementById('expl-box');
+        eb.innerHTML = `<strong>Explanation:</strong> ${q.e}`;
+        eb.style.display = 'block';
+        document.getElementById('next-btn').style.display = 'block';
     }
 
-    function nextQuestion() {
+    function nextQ() {
         currentIdx++;
-        if (currentIdx < questions.length) {
-            loadQuestion();
-        } else {
-            document.querySelector(".quiz-wrapper").innerHTML = "<h3>Quiz Completed!</h3><p>You have finished the Power Amplifier knowledge check.</p><button onclick='location.reload()' style='padding: 10px 20px; cursor:pointer; background:#1a75ff; color:white; border:none; border-radius:5px;'>Restart Quiz</button>";
-        }
+        if(currentIdx < questions.length) loadQ();
+        else document.getElementById('quiz').innerHTML = "<h3>Quiz Complete! Well done.</h3>";
     }
-
-    // Initialize first question
-    loadQuestion();
 </script>
 
 </body>
