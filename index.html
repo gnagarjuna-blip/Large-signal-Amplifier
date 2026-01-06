@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Amplifiers - G NAGARJUNA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #2c3e50;
+        }
+        .container {
+            width: 95%;
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 25px;
+            background-color: #fff;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+        header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 4px solid #2a9d8f;
+            margin-bottom: 30px;
+        }
+        header h1 { color: #264653; margin: 0; font-size: 2em; }
+        .prepared-by {
+            font-weight: bold;
+            color: #e76f51;
+            margin-top: 8px;
+            font-size: 1.2em;
+        }
+        
+        /* Accordion Styles */
+        .accordion-btn {
+            background-color: #264653;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: 0.4s;
+            border-radius: 8px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .active, .accordion-btn:hover {
+            background-color: #2a9d8f;
+        }
+        .accordion-btn:after {
+            content: '\002B';
+            font-size: 1.3em;
+        }
+        .active:after {
+            content: "\2212";
+        }
+        .panel {
+            padding: 0 20px;
+            background-color: #fafafa;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 4px solid #2a9d8f;
+            margin-bottom: 10px;
+        }
+
+        .formula {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #1d3557;
+            border: 1px solid #dee2e6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th { background-color: #264653; color: white; }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #000;
+            margin: 15px 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Power Amplifiers: Class A to C</h1>
+        <div class="prepared-by">Prepared by G NAGARJUNA</div>
+        <p>Comprehensive technical notes on large-signal amplification.</p>
+    </header>
+
+    <button class="accordion-btn">I. Introduction to Power Amplifiers</button>
+    <div class="panel">
+        <p>Power amplifiers are designed to deliver high levels of power to a load, such as a loudspeaker or antenna. Unlike voltage amplifiers, they handle large currents and require <strong>impedance matching</strong>.</p>
+        <ul>
+            <li><strong>Large Signal:</strong> Operates over a significant portion of the load line.</li>
+            <li><strong>Low Output Resistance:</strong> Essential for maximum power transfer.</li>
+            <li><strong>Heat Dissipation:</strong> Large-scale transistors are used to manage thermal energy.</li>
+        </ul>
+    </div>
+
+    <button class="accordion-btn">II. Class A Amplifiers (Full Cycle)</button>
+    <div class="panel">
+        <p>Transistors conduct for the full 360° of the input signal. The Q-point is centered on the load line.</p>
+        <div class="formula">
+            P<sub>dc</sub> = V<sub>CC</sub> × I<sub>CQ</sub> <br>
+            Efficiency (η) = (P<sub>ac</sub> / P<sub>dc</sub>) × 100%
+        </div>
+        <ul>
+            <li><strong>Max Efficiency:</strong> 25% (Direct) to 50% (Transformer coupled).</li>
+            <li><strong>Advantages:</strong> No crossover distortion, high linearity.</li>
+            <li><strong>Disadvantages:</strong> Low efficiency, high heat loss.</li>
+        </ul>
+    </div>
+
+    <button class="accordion-btn">III. Class B & AB (The Compromise)</button>
+    <div class="panel">
+        <h4>Class B</h4>
+        <p>Conducts for 180°. High efficiency (~78.5%) but suffers from <strong>Crossover Distortion</strong>.</p>
+        <h4>Class AB</h4>
+        <p>Conducts between 180° and 360°. It is the most common class for audio as it eliminates crossover distortion while staying efficient.</p>
+    </div>
+
+    <button class="accordion-btn">IV. Comparison Table</button>
+    <div class="panel">
+        <table>
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Conduction Angle</th>
+                    <th>Efficiency (Max)</th>
+                    <th>Distortion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A</td>
+                    <td>360°</td>
+                    <td>25-50%</td>
+                    <td>Lowest</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>180°</td>
+                    <td>78.5%</td>
+                    <td>Moderate</td>
+                </tr>
+                <tr>
+                    <td>AB</td>
+                    <td>180°-360°</td>
+                    <td>50-70%</td>
+                    <td>Low</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>&lt; 180°</td>
+                    <td>&gt; 80%</td>
+                    <td>Highest</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button class="accordion-btn">V. Visual Guide & Q-Points</button>
+    <div class="panel">
+        <p>The positioning of the Q-point determines the amplifier class:</p>
+        <ul>
+            <li><strong>Class A:</strong> Center of Load Line.</li>
+            <li><strong>Class B:</strong> At Cut-off (X-axis).</li>
+            <li><strong>Class C:</strong> Below Cut-off.</li>
+        </ul>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/SOfvVjFtoS8" title="Power Amplifier Classes Explained" allowfullscreen></iframe>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var acc = document.getElementsByClassName("accordion-btn");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+    }
+</script>
+
+</body>
+</html>
