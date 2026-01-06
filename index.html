@@ -35,7 +35,6 @@
             font-size: 1.2em;
         }
         
-        /* Accordion Styles */
         .accordion-btn {
             background-color: #264653;
             color: white;
@@ -57,13 +56,9 @@
         .active, .accordion-btn:hover {
             background-color: #2a9d8f;
         }
-        .accordion-btn:after {
-            content: '\002B';
-            font-size: 1.3em;
-        }
-        .active:after {
-            content: "\2212";
-        }
+        .accordion-btn:after { content: '\002B'; font-size: 1.3em; }
+        .active:after { content: "\2212"; }
+
         .panel {
             padding: 0 20px;
             background-color: #fafafa;
@@ -92,26 +87,40 @@
             border-collapse: collapse;
             margin: 20px 0;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
         th { background-color: #264653; color: white; }
 
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Ratio */
-            height: 0;
-            overflow: hidden;
+        /* Quiz Styles */
+        .quiz-container {
+            background: #f8f9fa;
+            padding: 20px;
             border-radius: 10px;
-            background: #000;
-            margin: 15px 0;
+            margin-top: 20px;
         }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; border: none;
+        .question { font-weight: bold; margin-bottom: 10px; }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .option-btn {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+        }
+        .option-btn:hover { background: #e2e2e2; }
+        .correct { background-color: #c7f9cc !important; border-color: #2a9d8f !important; }
+        .wrong { background-color: #f8d7da !important; border-color: #e76f51 !important; }
+        #feedback { margin-top: 15px; font-weight: bold; }
+
+        /* Diagram Placeholder Style */
+        .diagram-box {
+            background: #fff;
+            border: 2px solid #ddd;
+            padding: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-style: italic;
+            color: #666;
         }
     </style>
 </head>
@@ -121,101 +130,67 @@
     <header>
         <h1>Power Amplifiers: Class A to C</h1>
         <div class="prepared-by">Prepared by G NAGARJUNA</div>
-        <p>Comprehensive technical notes on large-signal amplification.</p>
+        <p>Lecture notes with integrated interactive quiz.</p>
     </header>
 
-    <button class="accordion-btn">I. Introduction to Power Amplifiers</button>
+    <button class="accordion-btn">I. Introduction & Impedance Matching</button>
     <div class="panel">
-        <p>Power amplifiers are designed to deliver high levels of power to a load, such as a loudspeaker or antenna. Unlike voltage amplifiers, they handle large currents and require <strong>impedance matching</strong>.</p>
-        <ul>
-            <li><strong>Large Signal:</strong> Operates over a significant portion of the load line.</li>
-            <li><strong>Low Output Resistance:</strong> Essential for maximum power transfer.</li>
-            <li><strong>Heat Dissipation:</strong> Large-scale transistors are used to manage thermal energy.</li>
-        </ul>
-    </div>
-
-    <button class="accordion-btn">II. Class A Amplifiers (Full Cycle)</button>
-    <div class="panel">
-        <p>Transistors conduct for the full 360° of the input signal. The Q-point is centered on the load line.</p>
-        <div class="formula">
-            P<sub>dc</sub> = V<sub>CC</sub> × I<sub>CQ</sub> <br>
-            Efficiency (η) = (P<sub>ac</sub> / P<sub>dc</sub>) × 100%
+        <p>Power amplifiers handle large signals and aim for maximum power transfer to the load.</p>
+        <div class="diagram-box">
+            
         </div>
         <ul>
-            <li><strong>Max Efficiency:</strong> 25% (Direct) to 50% (Transformer coupled).</li>
-            <li><strong>Advantages:</strong> No crossover distortion, high linearity.</li>
-            <li><strong>Disadvantages:</strong> Low efficiency, high heat loss.</li>
+            <li><strong>Impedance Matching:</strong> Vital for efficiency. The output resistance must match the load resistance.</li>
         </ul>
     </div>
 
-    <button class="accordion-btn">III. Class B & AB (The Compromise)</button>
+    <button class="accordion-btn">II. Class A Amplifiers & Efficiency</button>
     <div class="panel">
-        <h4>Class B</h4>
-        <p>Conducts for 180°. High efficiency (~78.5%) but suffers from <strong>Crossover Distortion</strong>.</p>
-        <h4>Class AB</h4>
-        <p>Conducts between 180° and 360°. It is the most common class for audio as it eliminates crossover distortion while staying efficient.</p>
+        <p>The transistor conducts for the full cycle ($360^{\circ}$).</p>
+        <div class="diagram-box">
+            
+        </div>
+        <div class="formula">η<sub>max</sub> (Direct Coupled) = 25%</div>
+        <p>Since the transistor is always ON, it dissipates significant heat even when no signal is present.</p>
     </div>
 
-    <button class="accordion-btn">IV. Comparison Table</button>
+    <button class="accordion-btn">III. Load Line & Q-Point Analysis</button>
     <div class="panel">
+        <p>The position of the Quiescent (Q) point on the DC/AC load line determines the Amplifier Class.</p>
+        <div class="diagram-box">
+            
+        </div>
         <table>
-            <thead>
-                <tr>
-                    <th>Class</th>
-                    <th>Conduction Angle</th>
-                    <th>Efficiency (Max)</th>
-                    <th>Distortion</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>A</td>
-                    <td>360°</td>
-                    <td>25-50%</td>
-                    <td>Lowest</td>
-                </tr>
-                <tr>
-                    <td>B</td>
-                    <td>180°</td>
-                    <td>78.5%</td>
-                    <td>Moderate</td>
-                </tr>
-                <tr>
-                    <td>AB</td>
-                    <td>180°-360°</td>
-                    <td>50-70%</td>
-                    <td>Low</td>
-                </tr>
-                <tr>
-                    <td>C</td>
-                    <td>&lt; 180°</td>
-                    <td>&gt; 80%</td>
-                    <td>Highest</td>
-                </tr>
-            </tbody>
+            <tr><th>Class</th><th>Q-Point Location</th></tr>
+            <tr><td>Class A</td><td>Center of Load Line</td></tr>
+            <tr><td>Class B</td><td>At Cut-off Point (X-axis)</td></tr>
+            <tr><td>Class C</td><td>Below Cut-off Point</td></tr>
         </table>
     </div>
 
-    <button class="accordion-btn">V. Visual Guide & Q-Points</button>
+    <button class="accordion-btn">IV. Interactive Knowledge Check</button>
     <div class="panel">
-        <p>The positioning of the Q-point determines the amplifier class:</p>
-        <ul>
-            <li><strong>Class A:</strong> Center of Load Line.</li>
-            <li><strong>Class B:</strong> At Cut-off (X-axis).</li>
-            <li><strong>Class C:</strong> Below Cut-off.</li>
-        </ul>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/SOfvVjFtoS8" title="Power Amplifier Classes Explained" allowfullscreen></iframe>
+        <div class="quiz-container">
+            <div id="quiz">
+                <p class="question" id="q-text">Which amplifier class offers the highest theoretical efficiency but the highest distortion?</p>
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(this, 'Class A')">Class A</button>
+                    <button class="option-btn" onclick="checkAnswer(this, 'Class B')">Class B</button>
+                    <button class="option-btn" onclick="checkAnswer(this, 'Class C')">Class C</button>
+                    <button class="option-btn" onclick="checkAnswer(this, 'Class AB')">Class AB</button>
+                </div>
+                <p id="feedback"></p>
+                <button id="next-btn" style="display:none; margin-top:10px;" onclick="loadNextQuestion()">Next Question</button>
+            </div>
         </div>
     </div>
 
 </div>
 
 <script>
+    // Accordion Logic
     var acc = document.getElementsByClassName("accordion-btn");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
+    for (var i = 0; i < acc.length; i++) {
         acc[i].addEventListener("click", function() {
             this.classList.toggle("active");
             var panel = this.nextElementSibling;
@@ -224,6 +199,53 @@
             } else {
                 panel.style.maxHeight = panel.scrollHeight + "px";
             } 
+        });
+    }
+
+    // Quiz Logic
+    const questions = [
+        { q: "Which class conducts for the full 360 degrees?", a: "Class A", note: "Class A is the only class that stays on for the entire cycle." },
+        { q: "What is the maximum efficiency of a directly coupled Class A amplifier?", a: "25%", note: "Directly coupled Class A is inefficient; Transformer coupled can reach 50%." },
+        { q: "Where is the Q-point located for a Class B amplifier?", a: "At Cut-off", note: "Class B starts conducting exactly at the cutoff point." }
+    ];
+    
+    let currentQ = 0;
+
+    function checkAnswer(btn, choice) {
+        const feedback = document.getElementById("feedback");
+        const correctAnswer = questions[currentQ].a;
+        const allButtons = document.querySelectorAll('.option-btn');
+
+        allButtons.forEach(b => b.disabled = true);
+
+        if (choice === correctAnswer) {
+            btn.classList.add("correct");
+            feedback.innerHTML = "Correct! " + questions[currentQ].note;
+            feedback.style.color = "#2a9d8f";
+        } else {
+            btn.classList.add("wrong");
+            feedback.innerHTML = "Incorrect. The correct answer was " + correctAnswer + ". " + questions[currentQ].note;
+            feedback.style.color = "#e76f51";
+            // Highlight the correct one
+            allButtons.forEach(b => {
+                if(b.innerText === correctAnswer) b.classList.add("correct");
+            });
+        }
+        document.getElementById("next-btn").style.display = "block";
+    }
+
+    function loadNextQuestion() {
+        currentQ++;
+        if (currentQ >= questions.length) currentQ = 0; // Loop back
+        
+        document.getElementById("q-text").innerText = questions[currentQ].q;
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("next-btn").style.display = "none";
+        
+        const allButtons = document.querySelectorAll('.option-btn');
+        allButtons.forEach(b => {
+            b.disabled = false;
+            b.classList.remove("correct", "wrong");
         });
     }
 </script>
