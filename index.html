@@ -75,6 +75,32 @@
             font-weight: 600; color: #718096;
         }
 
+        /* Content boxes with file-like appearance */
+        .content-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .content-box h4 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        /* ASCII-style diagrams */
+        .ascii-diagram {
+            font-family: monospace;
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -103,6 +129,12 @@
         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
         th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
         th { background: #f1f5f9; }
+        
+        /* Features list */
+        .features-list li {
+            margin: 8px 0;
+            padding-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -114,76 +146,296 @@
     </header>
 
     <div class="nav-menu">
-        <button class="nav-btn active" onclick="showTopic('intro')">Introduction</button>
+        <button class="nav-btn active" onclick="showTopic('intro')">Introduction & Features</button>
         <button class="nav-btn" onclick="showTopic('classA')">Class A</button>
         <button class="nav-btn" onclick="showTopic('classB')">Class B</button>
         <button class="nav-btn" onclick="showTopic('classAB')">Class AB</button>
         <button class="nav-btn" onclick="showTopic('classC')">Class C</button>
+        <button class="nav-btn" onclick="showTopic('applications')">Applications</button>
         <button class="nav-btn" onclick="showTopic('quiz')">Self-Check Quiz</button>
     </div>
 
+    <!-- INTRODUCTION SECTION -->
     <div id="intro" class="topic-content active">
         <h2>What are Power Amplifiers?</h2>
-        <p>A Power Amplifier (Large Signal Amplifier) is designed to deliver maximum power to a load (like a speaker or antenna). They operate over a large portion of the transistor's characteristic curve.</p>
-        <div class="diagram-box">
-            
-            <span class="diagram-caption">Fig 1: Typical Audio Power System</span>
+        
+        <div class="content-box">
+            <h4>Definition (From: power amp int.jpeg)</h4>
+            <ul>
+                <li><strong>It is an amplifier with high output power</strong></li>
+                <li><strong>It is mainly used to deliver a large amount of power to a load.</strong></li>
+                <li>The output may be in the form of large voltage or large current.</li>
+                <li>It is also called as <strong>large signal amplifier</strong>.</li>
+            </ul>
         </div>
+
+        <div class="content-box">
+            <h4>Features of Power Amplifier (From: features of pa.png)</h4>
+            <ul class="features-list">
+                <li>→ The power handling capacity is large</li>
+                <li>→ Low output resistance</li>
+                <li>→ Impedance matching is required</li>
+                <li>→ Power transistors with heat sink are used</li>
+                <li>→ Distortion analysis is important</li>
+            </ul>
+        </div>
+
         <table>
-            <tr><th>Parameter</th><th>Small Signal</th><th>Large Signal (Power)</th></tr>
+            <tr><th>Parameter</th><th>Small Signal Amplifier</th><th>Large Signal (Power) Amplifier</th></tr>
             <tr><td>Main Goal</td><td>Voltage Gain</td><td>Power Delivery</td></tr>
             <tr><td>Transistor Size</td><td>Small</td><td>Large (with Heat Sinks)</td></tr>
+            <tr><td>Output Impedance</td><td>Higher</td><td>Low</td></tr>
+            <tr><td>Efficiency Consideration</td><td>Less critical</td><td>Very important</td></tr>
         </table>
     </div>
 
+    <!-- CLASS A SECTION -->
     <div id="classA" class="topic-content">
         <h2>Class A Amplifier</h2>
-        <p>The transistor conducts for the full 360° of the input cycle. The Q-point is exactly in the center of the load line.</p>
-        <div class="diagram-box">
-            
-            <span class="diagram-caption">Fig 2: Class A Operation & Waveform</span>
+        
+        <div class="content-box">
+            <h4>Key Characteristics (From: class a power.png)</h4>
+            <p><strong>360° conduction</strong> - In a class A amplifier, the transistor is 'on' for the full cycle (360°) of the AC input signal.</p>
+            <p>The Q-point is always positioned at the midpoint of the load line.</p>
         </div>
+
+        <div class="diagram-box">
+            <div class="ascii-diagram">
+   Input Signal            Output Signal
+      ↑                        ↑
+      │                        │
+  ┌───┼───┐               ┌───┼───┐
+  │   │   │               │   │   │
+  │   │   │               │   │   │
+  │   │   │               │   │   │
+  │   │   │               │   │   │
+  └───┼───┘               └───┼───┘
+      │                        │
+      │   360° conduction      │
+      └───────────────┘        │
+                               │
+      Q-point (midpoint)       │
+          always here          │
+                               │
+      DC Load Line            Amplified
+      │                        │
+      │                        │
+      └────────────────────────┘
+            </div>
+            <span class="diagram-caption">Fig 1: Class A Operation - Full 360° Conduction</span>
+        </div>
+
         <ul>
-            <li><strong>Efficiency:</strong> Max 25% (Direct) / 50% (Transformer Coupled).</li>
-            <li><strong>Distortion:</strong> Lowest among all classes.</li>
-            <li><strong>Application:</strong> High-fidelity audio pre-amps.</li>
+            <li><strong>Efficiency:</strong> Maximum 25% (Direct Coupled) / 50% (Transformer Coupled)</li>
+            <li><strong>Distortion:</strong> Lowest among all classes</li>
+            <li><strong>Biasing:</strong> Always biased in active region</li>
+            <li><strong>Applications:</strong> High-fidelity audio pre-amplifiers, where low distortion is critical</li>
         </ul>
     </div>
 
+    <!-- CLASS B SECTION -->
     <div id="classB" class="topic-content">
         <h2>Class B Amplifier</h2>
         <p>The transistor conducts for only 180° (half cycle). Usually used in a <strong>Push-Pull</strong> configuration where one transistor handles the positive half and the other handles the negative.</p>
+        
         <div class="diagram-box">
-            
-            <span class="diagram-caption">Fig 3: Class B Push-Pull Circuit</span>
+            <div class="ascii-diagram">
+   Class B - 180° Conduction
+   
+   Input Signal:        Output (Single Transistor):
+      ↑                    ↑
+      │                    │        No Output
+  ┌───┼───┐           ┌───┼─────────────┐
+  │   │   │           │   │             │
+  │   │   │           │   │             │
+──┼───┼───┼───    ────┼───┼─────────────┼───
+  │   │   │           │   │             │
+  │   │   │           │   │             │
+  └───┼───┘           └───┼─────────────┘
+      │                    │
+      │  180° active       │  180° inactive
+      └──────────┘         └──────────┘
+   
+   Push-Pull Configuration:
+   
+      +Vcc
+        │
+        │
+     ┌──┴──┐
+     │ Q1  │ (NPN) - Conducts positive half
+     └──┬──┘
+        │───→ To Load
+     ┌──┴──┐
+     │ Q2  │ (PNP) - Conducts negative half
+     └──┬──┘
+        │
+       GND
+            </div>
+            <span class="diagram-caption">Fig 2: Class B Operation & Push-Pull Configuration</span>
         </div>
-        <p><strong>Crossover Distortion:</strong> Occurs because transistors don't turn on until the signal reaches ~0.7V.</p>
-        <div class="diagram-box">
-            
-            <span class="diagram-caption">Fig 4: Crossover Distortion Visualized</span>
+
+        <div class="content-box">
+            <h4>Crossover Distortion</h4>
+            <p><strong>Crossover Distortion:</strong> Occurs because transistors don't turn on until the signal reaches ~0.7V. There's a "dead zone" where neither transistor conducts during the zero-crossing transition.</p>
         </div>
+
+        <ul>
+            <li><strong>Efficiency:</strong> Maximum 78.5% (theoretical)</li>
+            <li><strong>Distortion:</strong> Higher than Class A, especially crossover distortion</li>
+            <li><strong>Applications:</strong> Audio power amplifiers, RF power amplifiers</li>
+        </ul>
     </div>
 
+    <!-- CLASS AB SECTION -->
     <div id="classAB" class="topic-content">
         <h2>Class AB Amplifier</h2>
-        <p>A compromise between A and B. It conducts for slightly more than 180° to eliminate crossover distortion.</p>
+        <p>A compromise between Class A and Class B. It conducts for slightly more than 180° to eliminate crossover distortion.</p>
+        
         <div class="diagram-box">
-            
-            <span class="diagram-caption">Fig 5: Class AB Biasing</span>
+            <div class="ascii-diagram">
+   Class AB - Slightly > 180° Conduction
+   
+   Conduction Angle: 181° to 359°
+   
+   Input Signal:        Output:
+      ↑                    ↑
+      │                    │
+  ┌───┼───┐           ┌───┼───┐
+  │   │   │           │   │   │
+  │   │   │           │   │   │
+──┼───┼───┼───    ────┼───┼───┼───
+  │   │   │           │   │   │
+  │   │   │           │   │   │
+  └───┼───┘           └───┼───┘
+      │                    │
+      │  >180° conduction  │
+      └────────────┘       │
+                           │
+      Small overlap        │
+      eliminates crossover │
+      distortion           │
+                           │
+      Biased just above    │
+      cutoff point         │
+            </div>
+            <span class="diagram-caption">Fig 3: Class AB - Eliminates Crossover Distortion</span>
         </div>
-        <p>This is the most common class used in high-quality audio power amplifiers today.</p>
+
+        <div class="content-box">
+            <h4>Why Class AB?</h4>
+            <p>Class AB amplifiers are biased so that both transistors are conducting a small amount of current even when there's no input signal. This eliminates the "dead zone" found in Class B amplifiers, thus removing crossover distortion while maintaining good efficiency.</p>
+        </div>
+
+        <ul>
+            <li><strong>Efficiency:</strong> Between 50% and 78.5%</li>
+            <li><strong>Distortion:</strong> Very low, no crossover distortion</li>
+            <li><strong>Applications:</strong> Most common in high-quality audio power amplifiers, car audio systems, home theater systems</li>
+        </ul>
     </div>
 
+    <!-- CLASS C SECTION -->
     <div id="classC" class="topic-content">
         <h2>Class C Amplifier</h2>
         <p>The transistor conducts for less than 180°. It produces high distortion but very high efficiency (over 80%).</p>
+        
         <div class="diagram-box">
-            
-            <span class="diagram-caption">Fig 6: Class C with LC Tank Circuit</span>
+            <div class="ascii-diagram">
+   Class C - < 180° Conduction
+   
+   Input Signal:        Output (without tank):
+      ↑                    ↑
+      │                    │
+  ┌───┼───┐           ┌───┼───┐
+  │   │   │           │   │   │
+  │   │   │           │   │   │
+──┼───┼───┼───    ────┼───┼───┼───
+  │   │   │           │   │   │
+  │   │   │           │   │   │
+  └───┼───┘           └───┼───┘
+      │                    │
+      │  <180° conduction  │
+      └─────────┘          │
+                           │
+      High distortion      │
+      but high efficiency  │
+                           │
+      Needs LC tank        │
+      for filtering        │
+            </div>
+            <span class="diagram-caption">Fig 4: Class C Operation with Short Conduction Angle</span>
         </div>
-        <p><strong>Note:</strong> Used almost exclusively in Radio Frequency (RF) transmitters where the "Tank Circuit" filters out the distortion.</p>
+
+        <div class="content-box">
+            <h4>LC Tank Circuit</h4>
+            <p><strong>Note:</strong> Used almost exclusively in Radio Frequency (RF) transmitters where the "Tank Circuit" (LC resonant circuit) filters out the distortion and reconstructs the sine wave.</p>
+        </div>
+
+        <div class="ascii-diagram">
+   Class C with LC Tank Circuit:
+   
+      +Vcc
+        │
+        │
+     ┌──┴──┐
+     │     │ Transistor
+     └──┬──┘
+        │
+     ┌──┴──┐
+     │  L  │┐
+     │  C  │┼─ Tank Circuit (resonant)
+     └─────┘│
+            │
+           ─┴─→ RF Output
+           GND
+        </div>
+
+        <ul>
+            <li><strong>Efficiency:</strong> Highest - up to 90%</li>
+            <li><strong>Distortion:</strong> Very high (cannot be used for audio)</li>
+            <li><strong>Applications:</strong> RF transmitters, RF power amplifiers, frequency multipliers</li>
+            <li><strong>Biasing:</strong> Reverse biased or zero biased</li>
+        </ul>
     </div>
 
+    <!-- APPLICATIONS SECTION -->
+    <div id="applications" class="topic-content">
+        <h2>Applications of Power Amplifiers</h2>
+        
+        <div class="content-box">
+            <h4>From: appli of pa.png</h4>
+            <ul class="features-list">
+                <li><strong>→ It is widely used in public address system (loud speaker)</strong></li>
+                <li>→ In radio receivers</li>
+                <li>→ TV receivers</li>
+                <li>→ Cathode Ray Tubes, etc.</li>
+            </ul>
+        </div>
+
+        <div class="content-box">
+            <h4>Detailed Applications:</h4>
+            <table>
+                <tr><th>Application Area</th><th>Typical Class Used</th><th>Reason</th></tr>
+                <tr><td>Audio Hi-Fi Systems</td><td>Class AB</td><td>Balance of efficiency and low distortion</td></tr>
+                <tr><td>RF Transmitters</td><td>Class C</td><td>High efficiency, distortion filtered by tank circuit</td></tr>
+                <tr><td>Public Address Systems</td><td>Class AB/B</td><td>Good efficiency for high power output</td></tr>
+                <tr><td>Radio Receivers</td><td>Various</td><td>Depending on stage (pre-amp, power amp)</td></tr>
+                <tr><td>TV Receivers</td><td>Class AB</td><td>Video and audio amplification</td></tr>
+                <tr><td>Operational Amplifiers</td><td>Class A</td><td>Low distortion output stages</td></tr>
+            </table>
+        </div>
+
+        <div class="content-box">
+            <h4>Key Considerations for Applications:</h4>
+            <ul>
+                <li><strong>Impedance Matching:</strong> Critical for maximum power transfer</li>
+                <li><strong>Heat Dissipation:</strong> Power transistors require heat sinks</li>
+                <li><strong>Power Supply Requirements:</strong> Higher current capacity needed</li>
+                <li><strong>Distortion Limits:</strong> Application determines acceptable distortion levels</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- QUIZ SECTION -->
     <div id="quiz" class="topic-content">
         <div class="quiz-wrapper">
             <h3 id="q-text">Loading question...</h3>
@@ -204,25 +456,55 @@
     }
 
     const questions = [
-        { q: "Which class has the highest efficiency?", 
-          o: ["Class A", "Class B", "Class AB", "Class C"], 
-          a: "Class C", 
-          e: "Class C is most efficient (80%+) because the transistor is 'OFF' for more than half the cycle, saving energy." },
-        { q: "What causes crossover distortion?", 
-          o: ["High voltage", "Transistor turn-on delay", "Input noise", "Overheating"], 
-          a: "Transistor turn-on delay", 
-          e: "Transistors require about 0.7V to start conducting. In Class B, the gap between the two transistors switching causes this distortion." },
-        { q: "Which class conducts for 360 degrees?", 
-          o: ["Class A", "Class B", "Class AB", "Class C"], 
-          a: "Class A", 
-          e: "Class A is biased so that collector current flows during the entire input signal cycle." }
+        { 
+            q: "Which class has the highest efficiency?", 
+            o: ["Class A", "Class B", "Class AB", "Class C"], 
+            a: "Class C", 
+            e: "Class C is most efficient (80%+) because the transistor is 'OFF' for more than half the cycle, saving energy. However, it produces high distortion and requires a tank circuit for filtering." 
+        },
+        { 
+            q: "What causes crossover distortion in Class B amplifiers?", 
+            o: ["High voltage", "Transistor turn-on delay (0.7V)", "Input noise", "Overheating"], 
+            a: "Transistor turn-on delay (0.7V)", 
+            e: "Transistors require about 0.7V to start conducting. In Class B, the gap between the two transistors switching causes this distortion. Class AB solves this by biasing transistors slightly on." 
+        },
+        { 
+            q: "Which class conducts for 360 degrees of the input cycle?", 
+            o: ["Class A", "Class B", "Class AB", "Class C"], 
+            a: "Class A", 
+            e: "Class A is biased so that collector current flows during the entire input signal cycle (360° conduction). This gives lowest distortion but poorest efficiency." 
+        },
+        { 
+            q: "Which of these is NOT a typical application of power amplifiers?", 
+            o: ["Public address systems", "RF transmitters", "Digital logic gates", "Audio amplifiers"], 
+            a: "Digital logic gates", 
+            e: "Digital logic gates use switching transistors (saturated or cut-off) not linear amplification. Power amplifiers are used in audio, RF, and public address systems." 
+        },
+        { 
+            q: "Why are heat sinks used with power transistors?", 
+            o: ["For electrical insulation", "To increase efficiency", "To dissipate heat", "To reduce cost"], 
+            a: "To dissipate heat", 
+            e: "Power amplifiers handle large currents and voltages, generating significant heat. Heat sinks dissipate this heat to prevent thermal damage to transistors." 
+        },
+        { 
+            q: "Which class amplifier is commonly used in high-quality audio systems?", 
+            o: ["Class A", "Class B", "Class AB", "Class C"], 
+            a: "Class AB", 
+            e: "Class AB provides the best compromise between efficiency (like Class B) and low distortion (like Class A), making it ideal for high-quality audio." 
+        },
+        { 
+            q: "What is the main purpose of impedance matching in power amplifiers?", 
+            o: ["Reduce cost", "Increase distortion", "Maximum power transfer", "Reduce size"], 
+            a: "Maximum power transfer", 
+            e: "Impedance matching ensures maximum power is transferred from the amplifier to the load (like a speaker). Mismatch causes power reflection and reduced output." 
+        }
     ];
 
     let currentIdx = 0;
 
     function loadQ() {
         const q = questions[currentIdx];
-        document.getElementById('q-text').innerText = q.q;
+        document.getElementById('q-text').innerText = `Question ${currentIdx + 1}: ${q.q}`;
         const optDiv = document.getElementById('options');
         optDiv.innerHTML = '';
         document.getElementById('expl-box').style.display = 'none';
@@ -258,8 +540,13 @@
     function nextQ() {
         currentIdx++;
         if(currentIdx < questions.length) loadQ();
-        else document.getElementById('quiz').innerHTML = "<h3>Quiz Complete! Well done.</h3>";
+        else document.getElementById('quiz').innerHTML = "<h3>🎉 Quiz Complete! Well done.</h3><p>You've completed all questions. Review the topics to reinforce your learning.</p>";
     }
+
+    // Initialize first topic
+    document.addEventListener('DOMContentLoaded', function() {
+        showTopic('intro');
+    });
 </script>
 
 </body>
