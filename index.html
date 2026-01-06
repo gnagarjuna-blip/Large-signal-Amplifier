@@ -10,6 +10,8 @@
             --secondary: #d90429;
             --bg: #f0f4f8;
             --text: #333;
+            --wave-color: #1a75ff;
+            --grid-color: #e2e8f0;
         }
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -19,7 +21,7 @@
             line-height: 1.6;
         }
         .container {
-            width: 95%; max-width: 900px;
+            width: 95%; max-width: 1000px;
             margin: 20px auto; padding: 30px;
             background-color: #fff;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
@@ -29,6 +31,7 @@
             text-align: center;
             border-bottom: 5px solid var(--primary);
             margin-bottom: 20px;
+            padding-bottom: 15px;
         }
         .prepared-by {
             font-weight: bold; color: var(--secondary);
@@ -62,43 +65,122 @@
         .topic-content { display: none; animation: fadeIn 0.5s; }
         .topic-content.active { display: block; }
 
-        .diagram-box {
+        .diagram-container {
             text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            border: 2px solid #edf2f7;
+            margin: 25px 0;
+            padding: 20px;
+            border: 2px solid var(--grid-color);
             border-radius: 12px;
             background: #fff;
+            position: relative;
         }
         .diagram-caption {
-            display: block; margin-top: 10px;
-            font-weight: 600; color: #718096;
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #4a5568;
+            font-style: italic;
         }
 
-        /* Content boxes with file-like appearance */
-        .content-box {
-            background: #f8f9fa;
-            border-left: 4px solid var(--primary);
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 0 8px 8px 0;
-        }
-        .content-box h4 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-
-        /* ASCII-style diagrams */
-        .ascii-diagram {
-            font-family: monospace;
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 15px;
+        /* Waveform Diagrams */
+        .waveform-grid {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+                        linear-gradient(0deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+            margin: 20px auto;
+            border: 2px solid #cbd5e0;
             border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre;
-            margin: 15px 0;
-            font-size: 14px;
+            overflow: hidden;
+        }
+
+        .waveform {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sine-wave {
+            fill: none;
+            stroke: var(--wave-color);
+            stroke-width: 3;
+        }
+
+        .conduction-arc {
+            stroke: var(--secondary);
+            stroke-width: 2;
+            fill: rgba(217, 4, 41, 0.1);
+        }
+
+        .q-point {
+            fill: var(--secondary);
+            r: 6;
+            animation: pulse 2s infinite;
+        }
+
+        /* Transistor Symbols */
+        .transistor {
+            stroke: #333;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .npn-transistor {
+            stroke: #1a75ff;
+        }
+
+        .pnp-transistor {
+            stroke: #d90429;
+        }
+
+        .heat-sink {
+            fill: #a0aec0;
+            stroke: #718096;
+            stroke-width: 1;
+        }
+
+        /* Circuit Diagrams */
+        .circuit-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .circuit-line {
+            stroke: #333;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .component {
+            stroke: #2d3748;
+            stroke-width: 2;
+            fill: #fff;
+        }
+
+        .resistor {
+            fill: #fef3c7;
+        }
+
+        .capacitor {
+            fill: #d1fae5;
+        }
+
+        .inductor {
+            fill: #e0e7ff;
+        }
+
+        /* Animation */
+        @keyframes pulse {
+            0% { r: 6; opacity: 1; }
+            50% { r: 8; opacity: 0.7; }
+            100% { r: 6; opacity: 1; }
+        }
+
+        @keyframes drawWave {
+            to { stroke-dashoffset: 0; }
         }
 
         @keyframes fadeIn {
@@ -106,34 +188,109 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Quiz UI */
-        .quiz-wrapper {
-            background: #f8fafc;
-            padding: 25px;
-            border-radius: 12px;
-            border: 2px solid var(--primary);
+        /* Content boxes */
+        .content-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .opt-btn {
-            width: 100%; padding: 12px; margin: 5px 0;
-            border: 1px solid var(--primary);
-            background: white; border-radius: 6px; cursor: pointer;
-        }
-        .correct { background: #4bb543 !important; color: white; }
-        .wrong { background: #ff3333 !important; color: white; }
-        .explanation {
-            margin-top: 15px; padding: 15px;
-            background: #ebf8ff; border-left: 4px solid var(--primary);
-            display: none;
+        .content-box h4 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 8px;
         }
 
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
-        th { background: #f1f5f9; }
-        
         /* Features list */
         .features-list li {
-            margin: 8px 0;
-            padding-left: 5px;
+            margin: 10px 0;
+            padding-left: 10px;
+            position: relative;
+        }
+        .features-list li:before {
+            content: "→";
+            position: absolute;
+            left: -10px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .comparison-table th {
+            background: linear-gradient(135deg, #1a75ff 0%, #0052cc 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .comparison-table td {
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .comparison-table .highlight {
+            background: #e3f2fd;
+            font-weight: bold;
+        }
+
+        /* Quiz UI */
+        .quiz-wrapper {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .opt-btn {
+            width: 100%; padding: 15px; margin: 8px 0;
+            border: 2px solid var(--primary);
+            background: white; 
+            border-radius: 8px; 
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .opt-btn:hover {
+            background: #ebf8ff;
+            transform: translateY(-2px);
+        }
+        .correct { 
+            background: linear-gradient(135deg, #4bb543 0%, #3a9c33 100%) !important; 
+            color: white;
+            border-color: #3a9c33;
+        }
+        .wrong { 
+            background: linear-gradient(135deg, #ff3333 0%, #cc0000 100%) !important; 
+            color: white;
+            border-color: #cc0000;
+        }
+        .explanation {
+            margin-top: 20px; padding: 20px;
+            background: #ebf8ff; 
+            border-left: 5px solid var(--primary);
+            display: none;
+            border-radius: 0 8px 8px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .nav-menu { flex-direction: column; }
+            .nav-btn { width: 100%; }
+            .waveform-grid { height: 150px; }
         }
     </style>
 </head>
@@ -141,307 +298,805 @@
 
 <div class="container">
     <header>
-        <h1>Power Amplifier Mastery</h1>
+        <h1 style="color: var(--primary); margin-bottom: 10px;">Power Amplifier Mastery</h1>
         <div class="prepared-by">Prepared by G NAGARJUNA</div>
+        <p style="color: #666; font-style: italic;">Complete Guide to Power Amplifier Classes with Interactive Diagrams</p>
     </header>
 
     <div class="nav-menu">
-        <button class="nav-btn active" onclick="showTopic('intro')">Introduction & Features</button>
+        <button class="nav-btn active" onclick="showTopic('intro')">Introduction</button>
         <button class="nav-btn" onclick="showTopic('classA')">Class A</button>
         <button class="nav-btn" onclick="showTopic('classB')">Class B</button>
         <button class="nav-btn" onclick="showTopic('classAB')">Class AB</button>
         <button class="nav-btn" onclick="showTopic('classC')">Class C</button>
         <button class="nav-btn" onclick="showTopic('applications')">Applications</button>
-        <button class="nav-btn" onclick="showTopic('quiz')">Self-Check Quiz</button>
+        <button class="nav-btn" onclick="showTopic('comparison')">Comparison</button>
+        <button class="nav-btn" onclick="showTopic('quiz')">Quiz</button>
     </div>
 
     <!-- INTRODUCTION SECTION -->
     <div id="intro" class="topic-content active">
-        <h2>What are Power Amplifiers?</h2>
+        <h2 style="color: var(--primary);">Introduction to Power Amplifiers</h2>
         
         <div class="content-box">
-            <h4>Definition (From: power amp int.jpeg)</h4>
-            <ul>
-                <li><strong>It is an amplifier with high output power</strong></li>
-                <li><strong>It is mainly used to deliver a large amount of power to a load.</strong></li>
-                <li>The output may be in the form of large voltage or large current.</li>
-                <li>It is also called as <strong>large signal amplifier</strong>.</li>
+            <h4>Definition & Characteristics</h4>
+            <p><strong>Power Amplifier (Large Signal Amplifier)</strong> - An electronic device designed to increase the power of a signal. It delivers a large amount of power to the load (speaker, antenna, motor, etc.)</p>
+            
+            <div class="diagram-container">
+                <div style="width: 100%; max-width: 400px; margin: 0 auto;">
+                    <svg viewBox="0 0 400 200" style="width: 100%;">
+                        <!-- Input Signal -->
+                        <path d="M50,100 Q100,50 150,100 T250,100" stroke="#1a75ff" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                        <text x="50" y="190" fill="#4a5568">Input Signal</text>
+                        
+                        <!-- Amplifier Block -->
+                        <rect x="150" y="50" width="100" height="100" rx="10" fill="#e3f2fd" stroke="#1a75ff" stroke-width="2"/>
+                        <text x="200" y="110" text-anchor="middle" fill="#1a75ff" font-weight="bold">Power Amp</text>
+                        
+                        <!-- Output Signal -->
+                        <path d="M250,100 Q300,50 350,100 T450,100" stroke="#d90429" stroke-width="4" fill="none"/>
+                        <text x="350" y="190" fill="#4a5568">Output (Amplified)</text>
+                        
+                        <!-- Arrows -->
+                        <polygon points="150,100 140,95 140,105" fill="#1a75ff"/>
+                        <polygon points="250,100 260,95 260,105" fill="#d90429"/>
+                        
+                        <!-- Power Supply -->
+                        <rect x="175" y="20" width="50" height="15" fill="#90caf9" stroke="#1a75ff" stroke-width="1"/>
+                        <text x="200" y="30" text-anchor="middle" font-size="10" fill="#333">+Vcc</text>
+                    </svg>
+                </div>
+                <span class="diagram-caption">Fig 1: Basic Power Amplifier Block Diagram</span>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h4>Key Features (From: features of pa.png)</h4>
+            <ul class="features-list">
+                <li>The power handling capacity is large</li>
+                <li>Low output resistance</li>
+                <li>Impedance matching is required for maximum power transfer</li>
+                <li>Power transistors with heat sink are used</li>
+                <li>Distortion analysis is critical</li>
             </ul>
         </div>
 
         <div class="content-box">
-            <h4>Features of Power Amplifier (From: features of pa.png)</h4>
-            <ul class="features-list">
-                <li>→ The power handling capacity is large</li>
-                <li>→ Low output resistance</li>
-                <li>→ Impedance matching is required</li>
-                <li>→ Power transistors with heat sink are used</li>
-                <li>→ Distortion analysis is important</li>
-            </ul>
+            <h4>Why Power Amplifiers are Different</h4>
+            <table class="comparison-table">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Small Signal Amplifier</th>
+                    <th>Power Amplifier</th>
+                </tr>
+                <tr>
+                    <td><strong>Primary Goal</strong></td>
+                    <td>Voltage Gain</td>
+                    <td class="highlight">Power Delivery</td>
+                </tr>
+                <tr>
+                    <td><strong>Transistor Size</strong></td>
+                    <td>Small</td>
+                    <td class="highlight">Large with Heat Sinks</td>
+                </tr>
+                <tr>
+                    <td><strong>Efficiency</strong></td>
+                    <td>Not Critical</td>
+                    <td class="highlight">Very Important (50-90%)</td>
+                </tr>
+                <tr>
+                    <td><strong>Output Stage</strong></td>
+                    <td>Single transistor</td>
+                    <td class="highlight">Push-Pull configuration</td>
+                </tr>
+                <tr>
+                    <td><strong>Distortion</strong></td>
+                    <td>Minimal</td>
+                    <td class="highlight">Must be minimized</td>
+                </tr>
+            </table>
         </div>
-
-        <table>
-            <tr><th>Parameter</th><th>Small Signal Amplifier</th><th>Large Signal (Power) Amplifier</th></tr>
-            <tr><td>Main Goal</td><td>Voltage Gain</td><td>Power Delivery</td></tr>
-            <tr><td>Transistor Size</td><td>Small</td><td>Large (with Heat Sinks)</td></tr>
-            <tr><td>Output Impedance</td><td>Higher</td><td>Low</td></tr>
-            <tr><td>Efficiency Consideration</td><td>Less critical</td><td>Very important</td></tr>
-        </table>
     </div>
 
     <!-- CLASS A SECTION -->
     <div id="classA" class="topic-content">
-        <h2>Class A Amplifier</h2>
+        <h2 style="color: var(--primary);">Class A Power Amplifier</h2>
         
         <div class="content-box">
-            <h4>Key Characteristics (From: class a power.png)</h4>
-            <p><strong>360° conduction</strong> - In a class A amplifier, the transistor is 'on' for the full cycle (360°) of the AC input signal.</p>
-            <p>The Q-point is always positioned at the midpoint of the load line.</p>
+            <h4>360° Conduction Angle (From: class a power.png)</h4>
+            <p>The transistor conducts for the <strong>entire 360°</strong> of the input cycle. The Q-point is positioned exactly at the midpoint of the load line for maximum symmetrical swing.</p>
         </div>
 
-        <div class="diagram-box">
-            <div class="ascii-diagram">
-   Input Signal            Output Signal
-      ↑                        ↑
-      │                        │
-  ┌───┼───┐               ┌───┼───┐
-  │   │   │               │   │   │
-  │   │   │               │   │   │
-  │   │   │               │   │   │
-  │   │   │               │   │   │
-  └───┼───┘               └───┼───┘
-      │                        │
-      │   360° conduction      │
-      └───────────────┘        │
-                               │
-      Q-point (midpoint)       │
-          always here          │
-                               │
-      DC Load Line            Amplified
-      │                        │
-      │                        │
-      └────────────────────────┘
+        <div class="diagram-container">
+            <div class="waveform-grid">
+                <svg class="waveform" viewBox="0 0 600 200">
+                    <!-- Grid Lines -->
+                    <defs>
+                        <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="600" height="200" fill="url(#grid)"/>
+                    
+                    <!-- X and Y axes -->
+                    <path d="M50,100 L550,100" stroke="#718096" stroke-width="2" id="x-axis"/>
+                    <path d="M300,20 L300,180" stroke="#718096" stroke-width="2" id="y-axis"/>
+                    
+                    <!-- Input Sine Wave -->
+                    <path d="M50,100 
+                             C100,50 150,50 200,100
+                             C250,150 300,150 350,100
+                             C400,50 450,50 500,100" 
+                          class="sine-wave" 
+                          stroke-dasharray="1000"
+                          stroke-dashoffset="1000">
+                        <animate attributeName="stroke-dashoffset" from="1000" to="0" dur="3s" fill="freeze"/>
+                    </path>
+                    
+                    <!-- Output Wave (Amplified) -->
+                    <path d="M50,100 
+                             C100,30 150,30 200,100
+                             C250,170 300,170 350,100
+                             C400,30 450,30 500,100" 
+                          stroke="#d90429" 
+                          stroke-width="3" 
+                          fill="none"
+                          opacity="0">
+                        <animate attributeName="opacity" from="0" to="1" begin="1.5s" dur="2s" fill="freeze"/>
+                    </path>
+                    
+                    <!-- 360° Conduction Arc -->
+                    <circle cx="300" cy="100" r="80" class="conduction-arc" fill="none" stroke-dasharray="5,5"/>
+                    <text x="300" y="70" text-anchor="middle" fill="#d90429" font-weight="bold">360°</text>
+                    
+                    <!-- Q-point -->
+                    <circle cx="300" cy="100" class="q-point"/>
+                    <text x="320" y="105" fill="#d90429" font-weight="bold">Q-point</text>
+                    
+                    <!-- Labels -->
+                    <text x="50" y="190" fill="#4a5568">Input Signal</text>
+                    <text x="500" y="190" fill="#d90429">Output (Class A)</text>
+                </svg>
             </div>
-            <span class="diagram-caption">Fig 1: Class A Operation - Full 360° Conduction</span>
+            <span class="diagram-caption">Fig 2: Class A Operation - Full 360° Conduction with Q-point at Center</span>
         </div>
 
-        <ul>
-            <li><strong>Efficiency:</strong> Maximum 25% (Direct Coupled) / 50% (Transformer Coupled)</li>
-            <li><strong>Distortion:</strong> Lowest among all classes</li>
-            <li><strong>Biasing:</strong> Always biased in active region</li>
-            <li><strong>Applications:</strong> High-fidelity audio pre-amplifiers, where low distortion is critical</li>
-        </ul>
+        <div class="content-box">
+            <h4>Characteristics & Specifications</h4>
+            <ul class="features-list">
+                <li><strong>Conduction Angle:</strong> 360° (full cycle)</li>
+                <li><strong>Efficiency:</strong> 
+                    <ul style="margin-left: 20px; list-style-type: circle;">
+                        <li>Maximum 25% (Direct Coupled)</li>
+                        <li>Maximum 50% (Transformer Coupled)</li>
+                    </ul>
+                </li>
+                <li><strong>Distortion:</strong> Lowest among all classes</li>
+                <li><strong>Biasing:</strong> Always in active region</li>
+                <li><strong>Linearity:</strong> Excellent</li>
+                <li><strong>Applications:</strong> Hi-Fi audio pre-amplifiers, instrumentation</li>
+            </ul>
+        </div>
+
+        <div class="diagram-container">
+            <h4>Class A Circuit Configuration</h4>
+            <div style="width: 100%; max-width: 500px; margin: 0 auto;">
+                <svg viewBox="0 0 500 300" style="width: 100%;">
+                    <!-- Power Supply -->
+                    <rect x="200" y="20" width="100" height="20" fill="#90caf9" stroke="#1a75ff" stroke-width="1"/>
+                    <text x="250" y="33" text-anchor="middle" font-size="12">+Vcc</text>
+                    
+                    <!-- Transistor -->
+                    <circle cx="250" cy="150" r="30" fill="#fff" stroke="#1a75ff" stroke-width="2"/>
+                    <line x1="250" y1="120" x2="250" y2="180" stroke="#1a75ff" stroke-width="2"/>
+                    <line x1="220" y1="150" x2="280" y2="150" stroke="#1a75ff" stroke-width="2"/>
+                    <line x1="250" y1="180" x2="250" y2="220" stroke="#1a75ff" stroke-width="2"/>
+                    <text x="250" y="155" text-anchor="middle" font-size="14" fill="#1a75ff" font-weight="bold">Q</text>
+                    
+                    <!-- Biasing Resistors -->
+                    <rect x="180" y="80" width="40" height="15" class="resistor"/>
+                    <rect x="280" y="80" width="40" height="15" class="resistor"/>
+                    
+                    <!-- Load Resistor -->
+                    <rect x="230" y="220" width="40" height="15" class="resistor"/>
+                    <text x="250" y="260" text-anchor="middle">Load</text>
+                    
+                    <!-- Heat Sink -->
+                    <rect x="220" y="40" width="60" height="15" class="heat-sink"/>
+                    <line x1="225" y1="40" x2="225" y2="30" stroke="#718096" stroke-width="1"/>
+                    <line x1="235" y1="40" x2="235" y2="30" stroke="#718096" stroke-width="1"/>
+                    <line x1="245" y1="40" x2="245" y2="30" stroke="#718096" stroke-width="1"/>
+                    <line x1="255" y1="40" x2="255" y2="30" stroke="#718096" stroke-width="1"/>
+                    <line x1="265" y1="40" x2="265" y2="30" stroke="#718096" stroke-width="1"/>
+                    <line x1="275" y1="40" x2="275" y2="30" stroke="#718096" stroke-width="1"/>
+                    
+                    <!-- Connection Lines -->
+                    <line x1="200" y1="30" x2="250" y2="120" stroke="#333" stroke-width="2"/>
+                    <line x1="250" y1="220" x2="250" y2="250" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- Labels -->
+                    <text x="150" y="100" fill="#4a5568">R1</text>
+                    <text x="350" y="100" fill="#4a5568">R2</text>
+                    <text x="150" y="170" fill="#4a5568" font-weight="bold">Class A</text>
+                    <text x="150" y="190" fill="#666">Biased at midpoint</text>
+                </svg>
+            </div>
+            <span class="diagram-caption">Fig 3: Typical Class A Amplifier Circuit with Heat Sink</span>
+        </div>
     </div>
 
     <!-- CLASS B SECTION -->
     <div id="classB" class="topic-content">
-        <h2>Class B Amplifier</h2>
-        <p>The transistor conducts for only 180° (half cycle). Usually used in a <strong>Push-Pull</strong> configuration where one transistor handles the positive half and the other handles the negative.</p>
+        <h2 style="color: var(--primary);">Class B Power Amplifier</h2>
         
-        <div class="diagram-box">
-            <div class="ascii-diagram">
-   Class B - 180° Conduction
-   
-   Input Signal:        Output (Single Transistor):
-      ↑                    ↑
-      │                    │        No Output
-  ┌───┼───┐           ┌───┼─────────────┐
-  │   │   │           │   │             │
-  │   │   │           │   │             │
-──┼───┼───┼───    ────┼───┼─────────────┼───
-  │   │   │           │   │             │
-  │   │   │           │   │             │
-  └───┼───┘           └───┼─────────────┘
-      │                    │
-      │  180° active       │  180° inactive
-      └──────────┘         └──────────┘
-   
-   Push-Pull Configuration:
-   
-      +Vcc
-        │
-        │
-     ┌──┴──┐
-     │ Q1  │ (NPN) - Conducts positive half
-     └──┬──┘
-        │───→ To Load
-     ┌──┴──┐
-     │ Q2  │ (PNP) - Conducts negative half
-     └──┬──┘
-        │
-       GND
+        <div class="content-box">
+            <h4>180° Conduction Angle</h4>
+            <p>Each transistor conducts for <strong>only 180°</strong> (half cycle) of the input signal. Used in <strong>Push-Pull</strong> configuration for complete waveform reproduction.</p>
+        </div>
+
+        <div class="diagram-container">
+            <div class="waveform-grid">
+                <svg class="waveform" viewBox="0 0 600 200">
+                    <!-- Grid -->
+                    <rect width="600" height="200" fill="url(#grid)"/>
+                    
+                    <!-- Axes -->
+                    <path d="M50,100 L550,100" stroke="#718096" stroke-width="2"/>
+                    <path d="M300,20 L300,180" stroke="#718096" stroke-width="2"/>
+                    
+                    <!-- Positive Half Cycle (NPN) -->
+                    <path d="M50,100 
+                             C100,50 150,50 200,100
+                             C250,150 300,150 350,100" 
+                          stroke="#1a75ff" 
+                          stroke-width="3" 
+                          fill="none"
+                          stroke-dasharray="5,5"/>
+                    
+                    <!-- Negative Half Cycle (PNP) -->
+                    <path d="M350,100 
+                             C400,150 450,150 500,100" 
+                          stroke="#d90429" 
+                          stroke-width="3" 
+                          fill="none"
+                          stroke-dasharray="5,5"/>
+                    
+                    <!-- Combined Output -->
+                    <path d="M50,100 
+                             C100,50 150,50 200,100
+                             C250,150 300,150 350,100
+                             C400,50 450,50 500,100" 
+                          stroke="#10b981" 
+                          stroke-width="3" 
+                          fill="none"
+                          opacity="0">
+                        <animate attributeName="opacity" from="0" to="1" begin="2s" dur="2s" fill="freeze"/>
+                    </path>
+                    
+                    <!-- 180° Arcs -->
+                    <path d="M200,100 A50,50 0 0,1 350,100" stroke="#1a75ff" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <text x="275" y="80" fill="#1a75ff" font-weight="bold">180°</text>
+                    
+                    <path d="M350,100 A50,50 0 0,1 500,100" stroke="#d90429" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <text x="425" y="80" fill="#d90429" font-weight="bold">180°</text>
+                    
+                    <!-- Crossover Region -->
+                    <rect x="320" y="70" width="60" height="60" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="350" y="150" fill="#f59e0b" font-weight="bold">Crossover Zone</text>
+                </svg>
             </div>
-            <span class="diagram-caption">Fig 2: Class B Operation & Push-Pull Configuration</span>
+            <span class="diagram-caption">Fig 4: Class B Operation - 180° Conduction per Transistor with Crossover Zone</span>
         </div>
 
         <div class="content-box">
             <h4>Crossover Distortion</h4>
-            <p><strong>Crossover Distortion:</strong> Occurs because transistors don't turn on until the signal reaches ~0.7V. There's a "dead zone" where neither transistor conducts during the zero-crossing transition.</p>
+            <p><strong>Problem:</strong> Transistors require ~0.7V to turn on. During zero-crossing, neither transistor conducts, creating distortion.</p>
+            <p><strong>Solution:</strong> Class AB biasing (slightly forward-biasing both transistors).</p>
         </div>
 
-        <ul>
-            <li><strong>Efficiency:</strong> Maximum 78.5% (theoretical)</li>
-            <li><strong>Distortion:</strong> Higher than Class A, especially crossover distortion</li>
-            <li><strong>Applications:</strong> Audio power amplifiers, RF power amplifiers</li>
-        </ul>
+        <div class="diagram-container">
+            <h4>Push-Pull Configuration</h4>
+            <div style="width: 100%; max-width: 600px; margin: 0 auto;">
+                <svg viewBox="0 0 600 400" style="width: 100%;">
+                    <!-- Power Supplies -->
+                    <rect x="150" y="30" width="80" height="20" fill="#90caf9" stroke="#1a75ff"/>
+                    <text x="190" y="43" text-anchor="middle">+Vcc</text>
+                    
+                    <rect x="370" y="30" width="80" height="20" fill="#fecaca" stroke="#d90429"/>
+                    <text x="410" y="43" text-anchor="middle">-Vcc</text>
+                    
+                    <!-- NPN Transistor -->
+                    <circle cx="250" cy="150" r="25" fill="#fff" stroke="#1a75ff" stroke-width="2"/>
+                    <line x1="250" y1="125" x2="250" y2="175" stroke="#1a75ff" stroke-width="2"/>
+                    <line x1="225" y1="150" x2="275" y2="150" stroke="#1a75ff" stroke-width="2"/>
+                    <line x1="250" y1="175" x2="250" y2="220" stroke="#1a75ff" stroke-width="2"/>
+                    <text x="250" y="155" text-anchor="middle" fill="#1a75ff">Q1 (NPN)</text>
+                    
+                    <!-- PNP Transistor -->
+                    <circle cx="350" cy="150" r="25" fill="#fff" stroke="#d90429" stroke-width="2"/>
+                    <line x1="350" y1="125" x2="350" y2="175" stroke="#d90429" stroke-width="2"/>
+                    <line x1="325" y1="150" x2="375" y2="150" stroke="#d90429" stroke-width="2"/>
+                    <line x1="350" y1="175" x2="350" y2="220" stroke="#d90429" stroke-width="2"/>
+                    <text x="350" y="155" text-anchor="middle" fill="#d90429">Q2 (PNP)</text>
+                    
+                    <!-- Input Transformer -->
+                    <circle cx="300" cy="250" r="40" fill="#f3f4f6" stroke="#666" stroke-width="2"/>
+                    <line x1="260" y1="250" x2="340" y2="250" stroke="#666" stroke-width="2"/>
+                    <text x="300" y="255" text-anchor="middle" font-size="12">Input</text>
+                    
+                    <!-- Output to Load -->
+                    <rect x="280" y="300" width="40" height="15" class="resistor"/>
+                    <text x="300" y="340" text-anchor="middle">Load (Speaker)</text>
+                    
+                    <!-- Connection Lines -->
+                    <line x1="250" y1="220" x2="300" y2="290" stroke="#333" stroke-width="2"/>
+                    <line x1="350" y1="220" x2="300" y2="290" stroke="#333" stroke-width="2"/>
+                    <line x1="300" y1="290" x2="300" y2="300" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- Arrows for current flow -->
+                    <polygon points="250,100 245,95 245,105" fill="#1a75ff"/>
+                    <polygon points="350,100 355,95 355,105" fill="#d90429"/>
+                    
+                    <!-- Labels -->
+                    <text x="100" y="200" fill="#4a5568" font-weight="bold">Push-Pull</text>
+                    <text x="100" y="220" fill="#666">Configuration</text>
+                    <text x="300" y="400" fill="#666" font-size="12">Q1 conducts positive half, Q2 conducts negative half</text>
+                </svg>
+            </div>
+            <span class="diagram-caption">Fig 5: Class B Push-Pull Amplifier Circuit</span>
+        </div>
     </div>
 
     <!-- CLASS AB SECTION -->
     <div id="classAB" class="topic-content">
-        <h2>Class AB Amplifier</h2>
-        <p>A compromise between Class A and Class B. It conducts for slightly more than 180° to eliminate crossover distortion.</p>
+        <h2 style="color: var(--primary);">Class AB Power Amplifier</h2>
         
-        <div class="diagram-box">
-            <div class="ascii-diagram">
-   Class AB - Slightly > 180° Conduction
-   
-   Conduction Angle: 181° to 359°
-   
-   Input Signal:        Output:
-      ↑                    ↑
-      │                    │
-  ┌───┼───┐           ┌───┼───┐
-  │   │   │           │   │   │
-  │   │   │           │   │   │
-──┼───┼───┼───    ────┼───┼───┼───
-  │   │   │           │   │   │
-  │   │   │           │   │   │
-  └───┼───┘           └───┼───┘
-      │                    │
-      │  >180° conduction  │
-      └────────────┘       │
-                           │
-      Small overlap        │
-      eliminates crossover │
-      distortion           │
-                           │
-      Biased just above    │
-      cutoff point         │
+        <div class="content-box">
+            <h4>The Perfect Compromise</h4>
+            <p>Conduction angle is <strong>slightly more than 180° but less than 360°</strong> (typically 200°-270°). Eliminates crossover distortion while maintaining good efficiency.</p>
+        </div>
+
+        <div class="diagram-container">
+            <div class="waveform-grid">
+                <svg class="waveform" viewBox="0 0 600 200">
+                    <rect width="600" height="200" fill="url(#grid)"/>
+                    <path d="M50,100 L550,100" stroke="#718096" stroke-width="2"/>
+                    <path d="M300,20 L300,180" stroke="#718096" stroke-width="2"/>
+                    
+                    <!-- Input Wave -->
+                    <path d="M50,100 C100,50 150,50 200,100 C250,150 300,150 350,100 C400,50 450,50 500,100" 
+                          stroke="#9ca3af" 
+                          stroke-width="2" 
+                          fill="none"
+                          stroke-dasharray="5,5"/>
+                    
+                    <!-- Class AB Output -->
+                    <path d="M50,100 C100,40 150,40 200,100 C250,160 300,160 350,100 C400,40 450,40 500,100" 
+                          stroke="#10b981" 
+                          stroke-width="3" 
+                          fill="none"/>
+                    
+                    <!-- Overlap Region -->
+                    <rect x="290" y="90" width="20" height="20" fill="#10b981" opacity="0.3"/>
+                    <text x="300" y="85" text-anchor="middle" fill="#10b981" font-weight="bold">Overlap</text>
+                    
+                    <!-- Conduction Angles -->
+                    <path d="M200,100 A60,60 0 0,1 350,100" stroke="#10b981" stroke-width="2" fill="none"/>
+                    <text x="275" y="70" fill="#10b981" font-weight="bold">200°-270°</text>
+                    
+                    <!-- Biasing Level -->
+                    <line x1="50" y1="130" x2="550" y2="130" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="100" y="140" fill="#f59e0b" font-size="12">Slight forward bias</text>
+                    
+                    <line x1="50" y1="70" x2="550" y2="70" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="500" y="65" fill="#f59e0b" font-size="12">Slight forward bias</text>
+                </svg>
             </div>
-            <span class="diagram-caption">Fig 3: Class AB - Eliminates Crossover Distortion</span>
+            <span class="diagram-caption">Fig 6: Class AB Operation - Overlap Eliminates Crossover Distortion</span>
         </div>
 
         <div class="content-box">
-            <h4>Why Class AB?</h4>
-            <p>Class AB amplifiers are biased so that both transistors are conducting a small amount of current even when there's no input signal. This eliminates the "dead zone" found in Class B amplifiers, thus removing crossover distortion while maintaining good efficiency.</p>
+            <h4>Why Class AB Dominates Audio Applications</h4>
+            <ul class="features-list">
+                <li><strong>Efficiency:</strong> 50-70% (excellent for audio)</li>
+                <li><strong>Distortion:</strong> Very low, no crossover distortion</li>
+                <li><strong>Heat Dissipation:</strong> Moderate (smaller heat sinks than Class A)</li>
+                <li><strong>Linearity:</strong> Excellent across entire audio range</li>
+                <li><strong>Applications:</strong> Most modern audio amplifiers, car audio, home theater, studio monitors</li>
+            </ul>
         </div>
-
-        <ul>
-            <li><strong>Efficiency:</strong> Between 50% and 78.5%</li>
-            <li><strong>Distortion:</strong> Very low, no crossover distortion</li>
-            <li><strong>Applications:</strong> Most common in high-quality audio power amplifiers, car audio systems, home theater systems</li>
-        </ul>
     </div>
 
     <!-- CLASS C SECTION -->
     <div id="classC" class="topic-content">
-        <h2>Class C Amplifier</h2>
-        <p>The transistor conducts for less than 180°. It produces high distortion but very high efficiency (over 80%).</p>
+        <h2 style="color: var(--primary);">Class C Power Amplifier</h2>
         
-        <div class="diagram-box">
-            <div class="ascii-diagram">
-   Class C - < 180° Conduction
-   
-   Input Signal:        Output (without tank):
-      ↑                    ↑
-      │                    │
-  ┌───┼───┐           ┌───┼───┐
-  │   │   │           │   │   │
-  │   │   │           │   │   │
-──┼───┼───┼───    ────┼───┼───┼───
-  │   │   │           │   │   │
-  │   │   │           │   │   │
-  └───┼───┘           └───┼───┘
-      │                    │
-      │  <180° conduction  │
-      └─────────┘          │
-                           │
-      High distortion      │
-      but high efficiency  │
-                           │
-      Needs LC tank        │
-      for filtering        │
+        <div class="content-box">
+            <h4>High Efficiency Specialist</h4>
+            <p>Conduction angle is <strong>less than 180°</strong> (typically 120°-150°). Produces high distortion but achieves the highest efficiency (80-90%).</p>
+        </div>
+
+        <div class="diagram-container">
+            <div class="waveform-grid">
+                <svg class="waveform" viewBox="0 0 600 200">
+                    <rect width="600" height="200" fill="url(#grid)"/>
+                    <path d="M50,100 L550,100" stroke="#718096" stroke-width="2"/>
+                    <path d="M300,20 L300,180" stroke="#718096" stroke-width="2"/>
+                    
+                    <!-- Input Wave -->
+                    <path d="M50,100 C100,50 150,50 200,100 C250,150 300,150 350,100 C400,50 450,50 500,100" 
+                          stroke="#9ca3af" 
+                          stroke-width="2" 
+                          fill="none"
+                          stroke-dasharray="5,5"/>
+                    
+                    <!-- Class C Output Pulses -->
+                    <path d="M150,100 L150,40 L250,40 L250,100" 
+                          stroke="#8b5cf6" 
+                          stroke-width="3" 
+                          fill="none"/>
+                    
+                    <path d="M350,100 L350,160 L450,160 L450,100" 
+                          stroke="#8b5cf6" 
+                          stroke-width="3" 
+                          fill="none"/>
+                    
+                    <!-- LC Tank Filtered Output -->
+                    <path d="M150,100 
+                             C200,40 250,40 300,100
+                             C350,160 400,160 450,100" 
+                          stroke="#10b981" 
+                          stroke-width="3" 
+                          fill="none"
+                          opacity="0">
+                        <animate attributeName="opacity" from="0" to="1" begin="1s" dur="2s" fill="freeze"/>
+                    </path>
+                    
+                    <!-- Conduction Angle -->
+                    <path d="M180,100 A30,30 0 0,1 220,100" stroke="#8b5cf6" stroke-width="2" fill="none"/>
+                    <text x="200" y="80" fill="#8b5cf6" font-weight="bold">< 180°</text>
+                    
+                    <!-- Labels -->
+                    <text x="200" y="50" fill="#8b5cf6" font-size="12">Pulse Output</text>
+                    <text x="400" y="180" fill="#8b5cf6" font-size="12">Pulse Output</text>
+                    <text x="300" y="130" fill="#10b981" font-weight="bold">Tank Filtered</text>
+                </svg>
             </div>
-            <span class="diagram-caption">Fig 4: Class C Operation with Short Conduction Angle</span>
+            <span class="diagram-caption">Fig 7: Class C Operation - Short Pulses Filtered by LC Tank Circuit</span>
+        </div>
+
+        <div class="diagram-container">
+            <h4>LC Tank Circuit for Filtering</h4>
+            <div style="width: 100%; max-width: 500px; margin: 0 auto;">
+                <svg viewBox="0 0 500 350" style="width: 100%;">
+                    <!-- Transistor -->
+                    <circle cx="250" cy="100" r="25" fill="#fff" stroke="#8b5cf6" stroke-width="2"/>
+                    <line x1="250" y1="75" x2="250" y2="125" stroke="#8b5cf6" stroke-width="2"/>
+                    <line x1="225" y1="100" x2="275" y2="100" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="250" y="105" text-anchor="middle" fill="#8b5cf6">Q</text>
+                    
+                    <!-- LC Tank Circuit -->
+                    <!-- Inductor -->
+                    <path d="M200,150 
+                             C200,170 220,170 220,150
+                             C220,130 240,130 240,150
+                             C240,170 260,170 260,150
+                             C260,130 280,130 280,150
+                             C280,170 300,170 300,150" 
+                          stroke="#6366f1" 
+                          stroke-width="2" 
+                          fill="none"/>
+                    <text x="250" y="145" text-anchor="middle" fill="#6366f1" font-size="12">L</text>
+                    
+                    <!-- Capacitor -->
+                    <line x1="300" y1="150" x2="320" y2="150" stroke="#333" stroke-width="2"/>
+                    <line x1="320" y1="140" x2="320" y2="160" stroke="#333" stroke-width="2"/>
+                    <line x1="340" y1="140" x2="340" y2="160" stroke="#333" stroke-width="2"/>
+                    <line x1="320" y1="150" x2="340" y2="150" stroke="#333" stroke-width="2"/>
+                    <text x="330" y="145" text-anchor="middle" fill="#10b981" font-size="12">C</text>
+                    
+                    <!-- Output -->
+                    <line x1="340" y1="150" x2="400" y2="150" stroke="#333" stroke-width="2"/>
+                    <text x="370" y="140" fill="#333" font-size="12">RF Output</text>
+                    
+                    <!-- Power Supply -->
+                    <rect x="200" y="30" width="100" height="20" fill="#a78bfa" stroke="#8b5cf6"/>
+                    <text x="250" y="43" text-anchor="middle">+Vcc</text>
+                    
+                    <!-- Ground -->
+                    <line x1="250" y1="220" x2="250" y2="240" stroke="#333" stroke-width="2"/>
+                    <line x1="230" y1="240" x2="270" y2="240" stroke="#333" stroke-width="2"/>
+                    <line x1="235" y1="245" x2="265" y2="245" stroke="#333" stroke-width="2"/>
+                    <line x1="240" y1="250" x2="260" y2="250" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- Connection Lines -->
+                    <line x1="250" y1="125" x2="250" y2="150" stroke="#333" stroke-width="2"/>
+                    <line x1="250" y1="150" x2="200" y2="150" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- Labels -->
+                    <text x="100" y="180" fill="#666" font-size="14">LC Tank Circuit</text>
+                    <text x="100" y="200" fill="#666" font-size="12">Filters harmonics</text>
+                    <text x="100" y="220" fill="#666" font-size="12">Reconstructs sine wave</text>
+                    <text x="250" y="280" fill="#8b5cf6" font-weight="bold">Class C: RF Applications Only</text>
+                </svg>
+            </div>
+            <span class="diagram-caption">Fig 8: Class C Amplifier with LC Tank Circuit</span>
         </div>
 
         <div class="content-box">
-            <h4>LC Tank Circuit</h4>
-            <p><strong>Note:</strong> Used almost exclusively in Radio Frequency (RF) transmitters where the "Tank Circuit" (LC resonant circuit) filters out the distortion and reconstructs the sine wave.</p>
+            <h4>Class C Characteristics</h4>
+            <ul class="features-list">
+                <li><strong>Conduction Angle:</strong> < 180° (typically 120°-150°)</li>
+                <li><strong>Efficiency:</strong> Highest - 80-90%</li>
+                <li><strong>Distortion:</strong> Very high (unusable for audio)</li>
+                <li><strong>Requires:</strong> LC tank circuit to filter harmonics</li>
+                <li><strong>Biasing:</strong> Reverse biased or zero biased</li>
+                <li><strong>Applications:</strong> RF transmitters, RF power amplifiers, oscillators, frequency multipliers</li>
+            </ul>
         </div>
-
-        <div class="ascii-diagram">
-   Class C with LC Tank Circuit:
-   
-      +Vcc
-        │
-        │
-     ┌──┴──┐
-     │     │ Transistor
-     └──┬──┘
-        │
-     ┌──┴──┐
-     │  L  │┐
-     │  C  │┼─ Tank Circuit (resonant)
-     └─────┘│
-            │
-           ─┴─→ RF Output
-           GND
-        </div>
-
-        <ul>
-            <li><strong>Efficiency:</strong> Highest - up to 90%</li>
-            <li><strong>Distortion:</strong> Very high (cannot be used for audio)</li>
-            <li><strong>Applications:</strong> RF transmitters, RF power amplifiers, frequency multipliers</li>
-            <li><strong>Biasing:</strong> Reverse biased or zero biased</li>
-        </ul>
     </div>
 
     <!-- APPLICATIONS SECTION -->
     <div id="applications" class="topic-content">
-        <h2>Applications of Power Amplifiers</h2>
+        <h2 style="color: var(--primary);">Applications of Power Amplifiers</h2>
         
         <div class="content-box">
             <h4>From: appli of pa.png</h4>
             <ul class="features-list">
-                <li><strong>→ It is widely used in public address system (loud speaker)</strong></li>
-                <li>→ In radio receivers</li>
-                <li>→ TV receivers</li>
-                <li>→ Cathode Ray Tubes, etc.</li>
+                <li><strong>It is widely used in public address system (loud speaker)</strong></li>
+                <li>In radio receivers</li>
+                <li>TV receivers</li>
+                <li>Cathode Ray Tubes, etc.</li>
             </ul>
         </div>
 
+        <div class="diagram-container">
+            <div style="width: 100%; max-width: 700px; margin: 0 auto;">
+                <svg viewBox="0 0 700 300" style="width: 100%;">
+                    <!-- Public Address System -->
+                    <rect x="50" y="50" width="80" height="40" fill="#e3f2fd" stroke="#1a75ff" rx="5"/>
+                    <text x="90" y="75" text-anchor="middle" font-size="12">PA System</text>
+                    <circle cx="90" cy="120" r="15" fill="#f3f4f6" stroke="#666"/>
+                    <text x="90" y="150" text-anchor="middle" font-size="10">Speaker</text>
+                    
+                    <!-- Radio Receiver -->
+                    <rect x="180" y="50" width="80" height="40" fill="#f3e8ff" stroke="#8b5cf6" rx="5"/>
+                    <text x="220" y="75" text-anchor="middle" font-size="12">Radio</text>
+                    <polygon points="220,100 210,120 230,120" fill="#8b5cf6"/>
+                    
+                    <!-- TV Receiver -->
+                    <rect x="310" y="50" width="80" height="60" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+                    <text x="350" y="85" text-anchor="middle" font-size="12">TV</text>
+                    <rect x="335" y="100" width="30" height="20" fill="#1f2937" stroke="#374151"/>
+                    
+                    <!-- CRT Display -->
+                    <rect x="440" y="50" width="100" height="80" fill="#f3f4f6" stroke="#666" rx="5"/>
+                    <circle cx="490" cy="90" r="25" fill="#1f2937" stroke="#374151"/>
+                    <text x="490" y="95" text-anchor="middle" fill="#fff" font-size="10">CRT</text>
+                    
+                    <!-- Audio Amplifier -->
+                    <rect x="590" y="50" width="80" height="40" fill="#d1fae5" stroke="#10b981" rx="5"/>
+                    <text x="630" y="75" text-anchor="middle" font-size="12">Audio Amp</text>
+                    <polygon points="630,100 620,120 640,120" fill="#10b981"/>
+                    
+                    <!-- Power Amplifier Blocks -->
+                    <rect x="100" y="200" width="120" height="40" fill="#1a75ff" rx="5"/>
+                    <text x="160" y="225" text-anchor="middle" fill="white" font-weight="bold">Power Amplifier</text>
+                    
+                    <rect x="280" y="200" width="120" height="40" fill="#1a75ff" rx="5"/>
+                    <text x="340" y="225" text-anchor="middle" fill="white" font-weight="bold">Power Amplifier</text>
+                    
+                    <rect x="460" y="200" width="120" height="40" fill="#1a75ff" rx="5"/>
+                    <text x="520" y="225" text-anchor="middle" fill="white" font-weight="bold">Power Amplifier</text>
+                    
+                    <!-- Arrows -->
+                    <line x1="90" y1="140" x2="90" y2="180" stroke="#1a75ff" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="220" y1="140" x2="220" y2="180" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="350" y1="140" x2="350" y2="180" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="490" y1="140" x2="490" y2="180" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="630" y1="140" x2="630" y2="180" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+                    
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <span class="diagram-caption">Fig 9: Power Amplifier Applications in Various Electronic Systems</span>
+        </div>
+
         <div class="content-box">
-            <h4>Detailed Applications:</h4>
-            <table>
-                <tr><th>Application Area</th><th>Typical Class Used</th><th>Reason</th></tr>
-                <tr><td>Audio Hi-Fi Systems</td><td>Class AB</td><td>Balance of efficiency and low distortion</td></tr>
-                <tr><td>RF Transmitters</td><td>Class C</td><td>High efficiency, distortion filtered by tank circuit</td></tr>
-                <tr><td>Public Address Systems</td><td>Class AB/B</td><td>Good efficiency for high power output</td></tr>
-                <tr><td>Radio Receivers</td><td>Various</td><td>Depending on stage (pre-amp, power amp)</td></tr>
-                <tr><td>TV Receivers</td><td>Class AB</td><td>Video and audio amplification</td></tr>
-                <tr><td>Operational Amplifiers</td><td>Class A</td><td>Low distortion output stages</td></tr>
+            <h4>Application-Specific Class Selection</h4>
+            <table class="comparison-table">
+                <tr>
+                    <th>Application</th>
+                    <th>Recommended Class</th>
+                    <th>Reason</th>
+                    <th>Typical Efficiency</th>
+                </tr>
+                <tr>
+                    <td><strong>Hi-Fi Audio Systems</strong></td>
+                    <td class="highlight">Class AB</td>
+                    <td>Balance of efficiency and low distortion</td>
+                    <td>50-70%</td>
+                </tr>
+                <tr>
+                    <td><strong>RF Transmitters</strong></td>
+                    <td class="highlight">Class C</td>
+                    <td>Highest efficiency, distortion filtered out</td>
+                    <td>80-90%</td>
+                </tr>
+                <tr>
+                    <td><strong>Public Address Systems</strong></td>
+                    <td class="highlight">Class AB/B</td>
+                    <td>Good efficiency for high power output</td>
+                    <td>60-78%</td>
+                </tr>
+                <tr>
+                    <td><strong>Instrumentation</strong></td>
+                    <td class="highlight">Class A</td>
+                    <td>Lowest distortion, excellent linearity</td>
+                    <td>25-50%</td>
+                </tr>
+                <tr>
+                    <td><strong>Car Audio Systems</strong></td>
+                    <td class="highlight">Class D (Digital)</td>
+                    <td>Very high efficiency, compact size</td>
+                    <td>85-95%</td>
+                </tr>
+                <tr>
+                    <td><strong>Operational Amplifiers</strong></td>
+                    <td class="highlight">Class A</td>
+                    <td>Output stages requiring low distortion</td>
+                    <td>25-30%</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- COMPARISON SECTION -->
+    <div id="comparison" class="topic-content">
+        <h2 style="color: var(--primary);">Power Amplifier Comparison</h2>
+        
+        <div class="content-box">
+            <h4>Summary of All Classes</h4>
+            <table class="comparison-table">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Class A</th>
+                    <th>Class B</th>
+                    <th>Class AB</th>
+                    <th>Class C</th>
+                </tr>
+                <tr>
+                    <td><strong>Conduction Angle</strong></td>
+                    <td>360°</td>
+                    <td>180°</td>
+                    <td>180°-360°</td>
+                    <td>< 180°</td>
+                </tr>
+                <tr>
+                    <td><strong>Efficiency (Max)</strong></td>
+                    <td>25-50%</td>
+                    <td>78.5%</td>
+                    <td>50-78.5%</td>
+                    <td>80-90%</td>
+                </tr>
+                <tr>
+                    <td><strong>Distortion</strong></td>
+                    <td>Lowest</td>
+                    <td>Crossover distortion</td>
+                    <td>Very Low</td>
+                    <td>Very High</td>
+                </tr>
+                <tr>
+                    <td><strong>Heat Dissipation</strong></td>
+                    <td>High</td>
+                    <td>Moderate</td>
+                    <td>Moderate</td>
+                    <td>Low</td>
+                </tr>
+                <tr>
+                    <td><strong>Linearity</strong></td>
+                    <td>Excellent</td>
+                    <td>Poor at crossover</td>
+                    <td>Very Good</td>
+                    <td>Poor</td>
+                </tr>
+                <tr>
+                    <td><strong>Complexity</strong></td>
+                    <td>Simple</td>
+                    <td>Moderate</td>
+                    <td>Moderate</td>
+                    <td>Complex</td>
+                </tr>
+                <tr>
+                    <td><strong>Typical Applications</strong></td>
+                    <td>Hi-Fi pre-amps, instrumentation</td>
+                    <td>Audio power amps</td>
+                    <td>Most audio amplifiers</td>
+                    <td>RF transmitters</td>
+                </tr>
+                <tr>
+                    <td><strong>Biasing</strong></td>
+                    <td>Always ON</td>
+                    <td>Cutoff</td>
+                    <td>Slightly ON</td>
+                    <td>Reverse bias</td>
+                </tr>
             </table>
         </div>
 
-        <div class="content-box">
-            <h4>Key Considerations for Applications:</h4>
-            <ul>
-                <li><strong>Impedance Matching:</strong> Critical for maximum power transfer</li>
-                <li><strong>Heat Dissipation:</strong> Power transistors require heat sinks</li>
-                <li><strong>Power Supply Requirements:</strong> Higher current capacity needed</li>
-                <li><strong>Distortion Limits:</strong> Application determines acceptable distortion levels</li>
-            </ul>
+        <div class="diagram-container">
+            <h4>Visual Comparison of Conduction Angles</h4>
+            <div style="width: 100%; max-width: 700px; margin: 0 auto;">
+                <svg viewBox="0 0 700 300" style="width: 100%;">
+                    <!-- Class A -->
+                    <text x="50" y="30" fill="#1a75ff" font-weight="bold">Class A: 360°</text>
+                    <rect x="50" y="40" width="150" height="60" fill="#e3f2fd" stroke="#1a75ff" rx="3"/>
+                    <circle cx="125" cy="70" r="25" fill="#1a75ff" opacity="0.2"/>
+                    <text x="125" cy="70" text-anchor="middle" fill="#1a75ff">360°</text>
+                    
+                    <!-- Class B -->
+                    <text x="250" y="30" fill="#d90429" font-weight="bold">Class B: 180°</text>
+                    <rect x="250" y="40" width="150" height="60" fill="#fee2e2" stroke="#d90429" rx="3"/>
+                    <path d="M275,70 A25,25 0 0,1 325,70" stroke="#d90429" stroke-width="3" fill="none"/>
+                    <text x="300" y="60" text-anchor="middle" fill="#d90429">180°</text>
+                    
+                    <!-- Class AB -->
+                    <text x="450" y="30" fill="#10b981" font-weight="bold">Class AB: >180°</text>
+                    <rect x="450" y="40" width="150" height="60" fill="#d1fae5" stroke="#10b981" rx="3"/>
+                    <path d="M475,70 A30,25 0 0,1 525,70" stroke="#10b981" stroke-width="3" fill="none"/>
+                    <text x="500" y="60" text-anchor="middle" fill="#10b981">200°-270°</text>
+                    
+                    <!-- Class C -->
+                    <text x="50" y="130" fill="#8b5cf6" font-weight="bold">Class C: <180°</text>
+                    <rect x="50" y="140" width="150" height="60" fill="#f3e8ff" stroke="#8b5cf6" rx="3"/>
+                    <path d="M100,170 A20,20 0 0,1 150,170" stroke="#8b5cf6" stroke-width="3" fill="none"/>
+                    <text x="125" y="165" text-anchor="middle" fill="#8b5cf6"><180°</text>
+                    
+                    <!-- Efficiency Bars -->
+                    <text x="300" y="130" font-weight="bold">Efficiency Comparison</text>
+                    
+                    <!-- Class A Efficiency -->
+                    <text x="50" y="230" fill="#1a75ff">Class A: 25%</text>
+                    <rect x="50" y="240" width="50" height="20" fill="#1a75ff"/>
+                    
+                    <!-- Class B Efficiency -->
+                    <text x="150" y="230" fill="#d90429">Class B: 78.5%</text>
+                    <rect x="150" y="240" width="157" height="20" fill="#d90429"/>
+                    
+                    <!-- Class AB Efficiency -->
+                    <text x="350" y="230" fill="#10b981">Class AB: 65%</text>
+                    <rect x="350" y="240" width="130" height="20" fill="#10b981"/>
+                    
+                    <!-- Class C Efficiency -->
+                    <text x="520" y="230" fill="#8b5cf6">Class C: 85%</text>
+                    <rect x="520" y="240" width="170" height="20" fill="#8b5cf6"/>
+                    
+                    <!-- Scale -->
+                    <line x1="50" y1="260" x2="690" y2="260" stroke="#666" stroke-width="1"/>
+                    <text x="50" y="275" text-anchor="middle" font-size="10">0%</text>
+                    <text x="250" y="275" text-anchor="middle" font-size="10">50%</text>
+                    <text x="450" y="275" text-anchor="middle" font-size="10">100%</text>
+                    <text x="650" y="275" text-anchor="middle" font-size="10">Efficiency</text>
+                </svg>
+            </div>
+            <span class="diagram-caption">Fig 10: Comparison of Conduction Angles and Efficiencies</span>
         </div>
     </div>
 
     <!-- QUIZ SECTION -->
     <div id="quiz" class="topic-content">
         <div class="quiz-wrapper">
-            <h3 id="q-text">Loading question...</h3>
+            <h3 style="color: var(--primary);" id="q-text">Loading question...</h3>
             <div id="options"></div>
             <div id="expl-box" class="explanation"></div>
-            <button id="next-btn" style="display:none; margin-top:15px; padding:10px; cursor:pointer;" onclick="nextQ()">Next Question</button>
+            <button id="next-btn" style="display:none; margin-top:15px; padding:10px; cursor:pointer; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold;" onclick="nextQ()">Next Question</button>
+            <div style="text-align: center; margin-top: 20px; color: #666;">
+                Question <span id="q-count">1</span> of <span id="q-total">7</span>
+            </div>
         </div>
     </div>
 </div>
@@ -452,51 +1107,54 @@
         document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         event.currentTarget.classList.add('active');
-        if(id === 'quiz') { currentIdx = 0; loadQ(); }
+        if(id === 'quiz') { 
+            currentIdx = 0; 
+            loadQ(); 
+        }
     }
 
     const questions = [
         { 
-            q: "Which class has the highest efficiency?", 
-            o: ["Class A", "Class B", "Class AB", "Class C"], 
-            a: "Class C", 
-            e: "Class C is most efficient (80%+) because the transistor is 'OFF' for more than half the cycle, saving energy. However, it produces high distortion and requires a tank circuit for filtering." 
-        },
-        { 
-            q: "What causes crossover distortion in Class B amplifiers?", 
-            o: ["High voltage", "Transistor turn-on delay (0.7V)", "Input noise", "Overheating"], 
-            a: "Transistor turn-on delay (0.7V)", 
-            e: "Transistors require about 0.7V to start conducting. In Class B, the gap between the two transistors switching causes this distortion. Class AB solves this by biasing transistors slightly on." 
-        },
-        { 
-            q: "Which class conducts for 360 degrees of the input cycle?", 
+            q: "Which class amplifier conducts for the full 360° of the input cycle?", 
             o: ["Class A", "Class B", "Class AB", "Class C"], 
             a: "Class A", 
-            e: "Class A is biased so that collector current flows during the entire input signal cycle (360° conduction). This gives lowest distortion but poorest efficiency." 
+            e: "Class A amplifiers are biased so that the transistor conducts for the entire input cycle (360°), providing the lowest distortion but poorest efficiency." 
         },
         { 
-            q: "Which of these is NOT a typical application of power amplifiers?", 
-            o: ["Public address systems", "RF transmitters", "Digital logic gates", "Audio amplifiers"], 
-            a: "Digital logic gates", 
-            e: "Digital logic gates use switching transistors (saturated or cut-off) not linear amplification. Power amplifiers are used in audio, RF, and public address systems." 
+            q: "What is the main disadvantage of Class B amplifiers that Class AB solves?", 
+            o: ["Low efficiency", "High cost", "Crossover distortion", "Complex circuitry"], 
+            a: "Crossover distortion", 
+            e: "Class B suffers from crossover distortion because transistors need ~0.7V to turn on. Class AB eliminates this by keeping both transistors slightly conducting." 
         },
         { 
-            q: "Why are heat sinks used with power transistors?", 
-            o: ["For electrical insulation", "To increase efficiency", "To dissipate heat", "To reduce cost"], 
-            a: "To dissipate heat", 
-            e: "Power amplifiers handle large currents and voltages, generating significant heat. Heat sinks dissipate this heat to prevent thermal damage to transistors." 
-        },
-        { 
-            q: "Which class amplifier is commonly used in high-quality audio systems?", 
+            q: "Which class amplifier is most suitable for RF transmitters due to its high efficiency?", 
             o: ["Class A", "Class B", "Class AB", "Class C"], 
-            a: "Class AB", 
-            e: "Class AB provides the best compromise between efficiency (like Class B) and low distortion (like Class A), making it ideal for high-quality audio." 
+            a: "Class C", 
+            e: "Class C offers the highest efficiency (80-90%) and is used in RF applications where an LC tank circuit filters out the distortion." 
         },
         { 
-            q: "What is the main purpose of impedance matching in power amplifiers?", 
-            o: ["Reduce cost", "Increase distortion", "Maximum power transfer", "Reduce size"], 
-            a: "Maximum power transfer", 
-            e: "Impedance matching ensures maximum power is transferred from the amplifier to the load (like a speaker). Mismatch causes power reflection and reduced output." 
+            q: "What is the typical efficiency range of Class AB amplifiers commonly used in audio systems?", 
+            o: ["20-30%", "50-70%", "80-90%", "95-99%"], 
+            a: "50-70%", 
+            e: "Class AB provides 50-70% efficiency, which is an optimal balance between the low distortion of Class A and good efficiency of Class B." 
+        },
+        { 
+            q: "Why are heat sinks essential for power amplifiers?", 
+            o: ["For electrical insulation", "To increase gain", "To dissipate heat from power transistors", "To reduce noise"], 
+            a: "To dissipate heat from power transistors", 
+            e: "Power amplifiers handle large currents, generating significant heat. Heat sinks prevent thermal damage by dissipating this heat effectively." 
+        },
+        { 
+            q: "Which application would most likely use a Class A amplifier?", 
+            o: ["RF transmitter", "Car audio system", "Hi-Fi preamplifier", "Public address system"], 
+            a: "Hi-Fi preamplifier", 
+            e: "Class A is used in Hi-Fi preamplifiers where low distortion is more important than efficiency, and power levels are moderate." 
+        },
+        { 
+            q: "What component is essential in a Class C amplifier to reconstruct the sine wave?", 
+            o: ["Heat sink", "LC tank circuit", "Large capacitor", "Multiple transistors"], 
+            a: "LC tank circuit", 
+            e: "Class C produces pulsed output. An LC tank circuit filters harmonics and reconstructs the sine wave for RF applications." 
         }
     ];
 
@@ -504,7 +1162,10 @@
 
     function loadQ() {
         const q = questions[currentIdx];
-        document.getElementById('q-text').innerText = `Question ${currentIdx + 1}: ${q.q}`;
+        document.getElementById('q-text').innerText = `Q${currentIdx + 1}: ${q.q}`;
+        document.getElementById('q-count').innerText = currentIdx + 1;
+        document.getElementById('q-total').innerText = questions.length;
+        
         const optDiv = document.getElementById('options');
         optDiv.innerHTML = '';
         document.getElementById('expl-box').style.display = 'none';
@@ -513,7 +1174,7 @@
         q.o.forEach(opt => {
             const btn = document.createElement('button');
             btn.className = 'opt-btn';
-            btn.innerText = opt;
+            btn.innerHTML = `<span style="font-weight: bold;">${opt}</span>`;
             btn.onclick = () => check(btn, opt);
             optDiv.appendChild(btn);
         });
@@ -528,24 +1189,54 @@
             btn.classList.add('correct');
         } else {
             btn.classList.add('wrong');
-            all.forEach(b => { if(b.innerText === q.a) b.classList.add('correct'); });
+            all.forEach(b => { 
+                if(b.textContent.includes(q.a)) b.classList.add('correct'); 
+            });
         }
         
         const eb = document.getElementById('expl-box');
-        eb.innerHTML = `<strong>Explanation:</strong> ${q.e}`;
+        eb.innerHTML = `<strong style="color: var(--primary);">Explanation:</strong><br>${q.e}`;
         eb.style.display = 'block';
-        document.getElementById('next-btn').style.display = 'block';
+        document.getElementById('next-btn').style.display = 'inline-block';
     }
 
     function nextQ() {
         currentIdx++;
-        if(currentIdx < questions.length) loadQ();
-        else document.getElementById('quiz').innerHTML = "<h3>🎉 Quiz Complete! Well done.</h3><p>You've completed all questions. Review the topics to reinforce your learning.</p>";
+        if(currentIdx < questions.length) {
+            loadQ();
+        } else {
+            document.getElementById('quiz').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h3 style="color: var(--primary);">🎉 Quiz Complete! Well Done!</h3>
+                    <p style="font-size: 18px; color: #4a5568;">You've successfully completed all questions.</p>
+                    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p style="font-weight: bold; color: var(--primary);">Key Takeaways:</p>
+                        <ul style="text-align: left; display: inline-block;">
+                            <li>Class A: 360° conduction, low distortion</li>
+                            <li>Class B: 180° conduction, crossover distortion</li>
+                            <li>Class AB: >180° conduction, best for audio</li>
+                            <li>Class C: <180° conduction, RF applications</li>
+                        </ul>
+                    </div>
+                    <button onclick="showTopic('intro')" style="padding: 12px 24px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px;">Return to Introduction</button>
+                </div>
+            `;
+        }
     }
 
     // Initialize first topic
     document.addEventListener('DOMContentLoaded', function() {
         showTopic('intro');
+        
+        // Add arrow markers to all diagrams
+        const defs = document.createElement('defs');
+        defs.innerHTML = `
+            <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" 
+                    markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+            </marker>
+        `;
+        document.querySelector('svg')?.appendChild(defs);
     });
 </script>
 
