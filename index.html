@@ -61,6 +61,12 @@
             background-color: #fff;
         }
 
+        .diagram-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
         .diagram-caption {
             display: block;
             margin-top: 10px;
@@ -86,11 +92,25 @@
             cursor: pointer;
             border-radius: 6px;
             transition: 0.3s;
+            font-size: 1em;
         }
         .opt-btn:hover { background: #e6f0ff; }
-        .correct { background-color: #4bb543 !important; color: white; }
-        .wrong { background-color: #ff3333 !important; color: white; }
-        #quiz-feedback { margin-top: 15px; font-weight: bold; text-align: center; min-height: 25px; }
+        .correct { background-color: #4bb543 !important; color: white; border-color: #4bb543; }
+        .wrong { background-color: #ff3333 !important; color: white; border-color: #ff3333; }
+        
+        #quiz-feedback { 
+            margin-top: 15px; 
+            padding: 15px;
+            border-radius: 8px;
+            display: none; 
+        }
+        .explanation-text {
+            font-size: 0.95em;
+            margin-top: 8px;
+            color: #444;
+            font-style: italic;
+        }
+        
         .progress { text-align: right; font-size: 0.9em; color: #666; }
 
         table {
@@ -183,7 +203,10 @@
             <p id="question-text" style="font-size: 1.1em; font-weight: bold;"></p>
             <div class="options-grid" id="options-container"></div>
         </div>
-        <div id="quiz-feedback"></div>
+        <div id="quiz-feedback">
+            <div id="result-status" style="font-weight: bold;"></div>
+            <div id="explanation-content" class="explanation-text"></div>
+        </div>
         <button id="next-btn" style="display:none; margin: 20px auto; padding: 10px 25px; background: #1a75ff; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="nextQuestion()">Next Question</button>
     </div>
 
@@ -191,16 +214,66 @@
 
 <script>
     const questions = [
-        { q: "What is the conduction angle of a Class A amplifier?", options: ["90 degrees", "180 degrees", "270 degrees", "360 degrees"], a: "360 degrees" },
-        { q: "Where is the Q-point located in a Class B amplifier?", options: ["Center of load line", "At cutoff", "Saturation region", "Below cutoff"], a: "At cutoff" },
-        { q: "Which amplifier class has the highest efficiency?", options: ["Class A", "Class B", "Class AB", "Class C"], a: "Class C" },
-        { q: "What is the theoretical maximum efficiency of a directly coupled Class A amplifier?", options: ["25%", "50%", "78.5%", "90%"], a: "25%" },
-        { q: "Crossover distortion is a major problem in which class?", options: ["Class A", "Class B", "Class C", "Class AB"], a: "Class B" },
-        { q: "Which class is used to eliminate crossover distortion while maintaining efficiency?", options: ["Class A", "Class B", "Class AB", "Class C"], a: "Class AB" },
-        { q: "In Class C amplifiers, the conduction angle is usually:", options: ["360", "180", "Less than 180", "Exactly 200"], a: "Less than 180" },
-        { q: "The ratio of AC output power to DC input power is called:", options: ["Gain", "Impedance", "Conversion Efficiency", "Dissipation"], a: "Conversion Efficiency" },
-        { q: "Why are Class A amplifiers considered inefficient?", options: ["Low gain", "High distortion", "Transistor is always ON", "Uses two transistors"], a: "Transistor is always ON" },
-        { q: "Which amplifier is best suited for RF (Radio Frequency) applications?", options: ["Class A", "Class B", "Class AB", "Class C"], a: "Class C" }
+        { 
+            q: "What is the conduction angle of a Class A amplifier?", 
+            options: ["90 degrees", "180 degrees", "270 degrees", "360 degrees"], 
+            a: "360 degrees",
+            exp: "Class A amplifiers conduct for the full cycle of the input signal, meaning the transistor remains active for 360 degrees."
+        },
+        { 
+            q: "Where is the Q-point located in a Class B amplifier?", 
+            options: ["Center of load line", "At cutoff", "Saturation region", "Below cutoff"], 
+            a: "At cutoff",
+            exp: "In Class B, the Q-point is biased exactly at the cutoff point so that only half of the input signal (180°) triggers conduction."
+        },
+        { 
+            q: "Which amplifier class has the highest efficiency?", 
+            options: ["Class A", "Class B", "Class AB", "Class C"], 
+            a: "Class C",
+            exp: "Class C has the highest efficiency (often >80%) because the transistor is off for most of the cycle, reducing power loss."
+        },
+        { 
+            q: "What is the theoretical maximum efficiency of a directly coupled Class A amplifier?", 
+            options: ["25%", "50%", "78.5%", "90%"], 
+            a: "25%",
+            exp: "For a series-fed (directly coupled) Class A amplifier, the maximum theoretical efficiency is only 25%. Transformer coupling can increase this to 50%."
+        },
+        { 
+            q: "Crossover distortion is a major problem in which class?", 
+            options: ["Class A", "Class B", "Class C", "Class AB"], 
+            a: "Class B",
+            exp: "Crossover distortion occurs in Class B when the signal crosses 0V because transistors need about 0.7V to turn on, creating a 'dead zone'."
+        },
+        { 
+            q: "Which class is used to eliminate crossover distortion while maintaining efficiency?", 
+            options: ["Class A", "Class B", "Class AB", "Class C"], 
+            a: "Class AB",
+            exp: "Class AB biases the transistors slightly above cutoff, so they stay on for slightly more than 180°, eliminating the 'dead zone' of Class B."
+        },
+        { 
+            q: "In Class C amplifiers, the conduction angle is usually:", 
+            options: ["360", "180", "Less than 180", "Exactly 200"], 
+            a: "Less than 180",
+            exp: "Class C conducts for a small pulse, typically between 80 to 120 degrees, which makes it highly efficient for RF tuning."
+        },
+        { 
+            q: "The ratio of AC output power to DC input power is called:", 
+            options: ["Gain", "Impedance", "Conversion Efficiency", "Dissipation"], 
+            a: "Conversion Efficiency",
+            exp: "Conversion efficiency measures how effectively the amplifier converts DC power from the supply into useful AC signal power."
+        },
+        { 
+            q: "Why are Class A amplifiers considered inefficient?", 
+            options: ["Low gain", "High distortion", "Transistor is always ON", "Uses two transistors"], 
+            a: "Transistor is always ON",
+            exp: "Efficiency is low because the collector current flows even when there is no input signal, causing constant power dissipation as heat."
+        },
+        { 
+            q: "Which amplifier is best suited for RF (Radio Frequency) applications?", 
+            options: ["Class A", "Class B", "Class AB", "Class C"], 
+            a: "Class C",
+            exp: "Class C is ideal for RF because its high distortion is filtered out by the LC 'tank' circuit, leaving only the efficient high-power carrier wave."
+        }
     ];
 
     let currentIdx = 0;
@@ -211,7 +284,8 @@
         document.getElementById("question-text").innerText = q.q;
         const optionsCont = document.getElementById("options-container");
         optionsCont.innerHTML = "";
-        document.getElementById("quiz-feedback").innerText = "";
+        
+        document.getElementById("quiz-feedback").style.display = "none";
         document.getElementById("next-btn").style.display = "none";
 
         q.options.forEach(opt => {
@@ -224,23 +298,32 @@
     }
 
     function checkAns(selectedBtn, choice) {
-        const correct = questions[currentIdx].a;
+        const q = questions[currentIdx];
+        const correct = q.a;
         const allBtns = document.querySelectorAll(".opt-btn");
+        const feedbackDiv = document.getElementById("quiz-feedback");
+        const status = document.getElementById("result-status");
+        const explanation = document.getElementById("explanation-content");
         
         allBtns.forEach(b => b.disabled = true);
+        feedbackDiv.style.display = "block";
 
         if (choice === correct) {
             selectedBtn.classList.add("correct");
-            document.getElementById("quiz-feedback").innerText = "Correct!";
-            document.getElementById("quiz-feedback").style.color = "#4bb543";
+            status.innerText = "Correct! ✅";
+            status.style.color = "#4bb543";
+            feedbackDiv.style.backgroundColor = "#e8f5e9";
         } else {
             selectedBtn.classList.add("wrong");
-            document.getElementById("quiz-feedback").innerText = "Wrong. Correct answer: " + correct;
-            document.getElementById("quiz-feedback").style.color = "#ff3333";
+            status.innerText = "Incorrect ❌ (Correct Answer: " + correct + ")";
+            status.style.color = "#ff3333";
+            feedbackDiv.style.backgroundColor = "#ffebee";
             allBtns.forEach(b => {
                 if (b.innerText === correct) b.classList.add("correct");
             });
         }
+        
+        explanation.innerText = q.exp;
         document.getElementById("next-btn").style.display = "block";
     }
 
@@ -249,7 +332,7 @@
         if (currentIdx < questions.length) {
             loadQuestion();
         } else {
-            document.querySelector(".quiz-wrapper").innerHTML = "<h3>Quiz Completed!</h3><p>You have finished the Power Amplifier knowledge check.</p><button onclick='location.reload()' style='padding: 10px; cursor:pointer;'>Restart Quiz</button>";
+            document.querySelector(".quiz-wrapper").innerHTML = "<h3>Quiz Completed!</h3><p>You have finished the Power Amplifier knowledge check.</p><button onclick='location.reload()' style='padding: 10px 20px; cursor:pointer; background:#1a75ff; color:white; border:none; border-radius:5px;'>Restart Quiz</button>";
         }
     }
 
